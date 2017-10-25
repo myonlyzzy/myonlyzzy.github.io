@@ -5,7 +5,10 @@
   <meta charset="utf-8" />
 
   
-  <title>Myonlyzzy Blog</title>
+  <title>
+  Posts
+   | Myonlyzzy Blog
+</title>
 
   
   
@@ -18,11 +21,13 @@
   <meta name="description" content="" />
 
   
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:site" content="@gohugoio" />
-  <meta name="twitter:title" content="Myonlyzzy Blog" />
-  <meta name="twitter:description" content="" />
-  <meta name="twitter:image" content="https://myonlyzzy.github.io/img/avatar.jpg" />
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@gohugoio" />
+    <meta name="twitter:title" content="Posts" />
+    <meta name="twitter:description" content="" />
+    <meta name="twitter:image" content="https://myonlyzzy.github.io/img/avatar.jpg" />
+  
 
 
 
@@ -30,7 +35,7 @@
 <meta name="generator" content="Hugo 0.24.1" />
 
 
-<link rel="canonical" href="https://myonlyzzy.github.io/" />
+<link rel="canonical" href="https://myonlyzzy.github.io/post/" />
 <link rel="alternative" href="/index.xml" title="Myonlyzzy Blog" type="application/atom+xml" />
 
 
@@ -65,6 +70,8 @@
 
 
 
+<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
+
 <link rel="stylesheet" href="/css/bundle.css" />
 
 
@@ -98,7 +105,7 @@
   <header class="site-header">
   <img class="avatar" src="" alt="Avatar">
   
-  <h1 class="title">Myonlyzzy Blog</h1>
+  <h2 class="title">Myonlyzzy Blog</h2>
   
   <p class="subtitle"></p>
   <button class="menu-toggle" type="button">
@@ -173,7 +180,7 @@
 
   <section class="main post-list">
     <header class="list-header offscreen">
-      <h2 class="list-label">All Posts</h2>
+      <h2 class="list-label">Posts List</h2>
     </header>
     
     
@@ -203,6 +210,30 @@ func main() { l, err := net.Listen(&#34;tcp&#34;, &#34;:2000&#34;) if err != nil
 </footer>
 
 
+
+<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\[','\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
 
 <script src="/js/bundle.js"></script>
 
