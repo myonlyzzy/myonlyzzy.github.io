@@ -6,10 +6,21 @@
     <description>Recent content on Myonlyzzy Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Oct 2017 14:03:50 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 25 Oct 2017 14:26:52 +0800</lastBuildDate>
     
 	<atom:link href="https://myonlyzzy.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Golang Net Http</title>
+      <link>https://myonlyzzy.github.io/post/golang-net-http/</link>
+      <pubDate>Wed, 25 Oct 2017 14:26:52 +0800</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/golang-net-http/</guid>
+      <description>golang net/http包详解  net/http 包是进行web和网络编程经常用到的一个包。详细了解golang 标准库里的这个包会对提高网路编程技巧有帮助 * TCP编程
+func main() { l, err := net.Listen(&amp;quot;tcp&amp;quot;, &amp;quot;:2000&amp;quot;) if err != nil { log.Fatal(err) } defer l.Close() for { // Wait for a connection. conn, err := l.Accept() if err != nil { log.Fatal(err) } go func(c net.Conn) { // Echo all incoming data. io.Copy(os.Stdout,c) // Shut down the connection. c.Close() }(conn) } }   在上面这段代码里面主要有3点
+ Net.liseten() liseten 返回一个listener interface 的实例</description>
+    </item>
     
     <item>
       <title>Test</title>
