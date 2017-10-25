@@ -177,22 +177,8 @@
     </header>
     
     
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="https://myonlyzzy.github.io/post/golang-net-http/" class="post-link"></a></h3>
-    <p class="post-meta">@ · Jan 1, 0001 · 4 min read</p>
-  </header>
-  
-  <p class="post-summary">golang net/http包详解  net/http 包是进行web和网络编程经常用到的一个包。详细了解golang 标准库里的这个包会对提高网路编程技巧有帮助 * TCP编程
-func main() { l, err := net.Listen(&#34;tcp&#34;, &#34;:2000&#34;) if err != nil { log.Fatal(err) } defer l.Close() for { // Wait for a connection. conn, err := l.Accept() if err != nil { log.Fatal(err) } go func(c net.Conn) { // Echo all incoming data. io.Copy(os.Stdout,c) // Shut down the connection. c.Close() }(conn) } }   在上面这段代码里面主要有3点
- Net.liseten() liseten 返回一个listener interface 的实例</p>
-  <footer class="post-footer">
-    <a class="read-more" href="https://myonlyzzy.github.io/post/golang-net-http/">Read More →</a>
-  </footer>
-</article>
-
-      
+      <p>There's nothing here.<br>Create an interesting post with the command:</p>
+      <p><code>$ hugo new post/hello-world.md</code></p>
     
     
   </section>
