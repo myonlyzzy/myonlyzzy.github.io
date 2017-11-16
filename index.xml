@@ -6,10 +6,28 @@
     <description>Recent content on Myonlyzzy Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Oct 2017 14:26:52 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 23 Oct 2017 11:07:57 +0800</lastBuildDate>
     
 	<atom:link href="https://myonlyzzy.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>About</title>
+      <link>https://myonlyzzy.github.io/about/</link>
+      <pubDate>Mon, 23 Oct 2017 11:07:57 +0800</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/about/</guid>
+      <description>myonlyzzy 想写就写！</description>
+    </item>
+    
+    <item>
+      <title>Docker Proxy</title>
+      <link>https://myonlyzzy.github.io/post/docker-proxy/</link>
+      <pubDate>Tue, 07 Nov 2017 14:56:29 +0800</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/docker-proxy/</guid>
+      <description>hello,world!!!</description>
+    </item>
     
     <item>
       <title>Golang Net Http</title>
@@ -28,7 +46,7 @@ func main() { l, err := net.Listen(&amp;quot;tcp&amp;quot;, &amp;quot;:2000&amp;
       <pubDate>Wed, 25 Oct 2017 14:03:50 +0800</pubDate>
       
       <guid>https://myonlyzzy.github.io/post/test/</guid>
-      <description>hello world!</description>
+      <description>hello world!sfsfsfsfs</description>
     </item>
     
   </channel>

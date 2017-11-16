@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://myonlyzzy.github.io/about/</loc>
+    <lastmod>2017-10-23T11:07:57+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myonlyzzy.github.io/post/docker-proxy/</loc>
+    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://myonlyzzy.github.io/post/golang-net-http/</loc>
     <lastmod>2017-10-25T14:26:52+08:00</lastmod>
   </url>
@@ -19,13 +29,13 @@
   
   <url>
     <loc>https://myonlyzzy.github.io/</loc>
-    <lastmod>2017-10-25T14:26:52+08:00</lastmod>
+    <lastmod>2017-10-23T11:07:57+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://myonlyzzy.github.io/post/</loc>
-    <lastmod>2017-10-25T14:26:52+08:00</lastmod>
+    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
