@@ -15,14 +15,26 @@
 
   
   <meta name="author" content="" />
-  <meta name="description" content="hello,world!!!" />
+  <meta name="description" content="配置docker 代理  前段时间由于要使用kubespray 部署一个k8s集群,但是kubespray使用的镜像都是gcr和quay的镜像被gfw屏蔽了,安装时pull不下来镜像.本来打算使用网易镜像中心有个哥们传上去的镜像但是版本很多不对,想了想还是自己搭个代理使用起来方便。
+ 申请一个aws的一年免费服务器 这个不用多说反正申请就好了,当然你得用信用卡,需要信用卡验证。
+配置socks代理 我比较懒也懒得配置sockshadow。直接使用ssh直接在本地启个socks代理。
+ssh -D 127.0.0.0:7000 -i key.pem aws-ecs-ip  使用polipo 将socks代理转http代理 mac下安装 polipo
+brew install polipo  polipo socksParentProxy=localhost:7000 proxyAddress=0.0.0.0  这样就在mac上启动了一个http代理默认的监听端口是8123
+docker配置代理 刚才配置的http代理是在本地mac上,如果你要配置在别的机器上原理一样。
+vi /etc/systemd/system/docker.service.d/http-proxy.conf [Service] Environment=&amp;quot;HTTP_PROXY=http://proxy_ip:8123/&amp;quot;  systemctl daemon-reload systemctl restart docker  配置完后docker就可以使用这个http代理来pull镜像" />
 
   
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@gohugoio" />
     <meta name="twitter:title" content="Docker Proxy" />
-    <meta name="twitter:description" content="hello,world!!!" />
+    <meta name="twitter:description" content="配置docker 代理  前段时间由于要使用kubespray 部署一个k8s集群,但是kubespray使用的镜像都是gcr和quay的镜像被gfw屏蔽了,安装时pull不下来镜像.本来打算使用网易镜像中心有个哥们传上去的镜像但是版本很多不对,想了想还是自己搭个代理使用起来方便。
+ 申请一个aws的一年免费服务器 这个不用多说反正申请就好了,当然你得用信用卡,需要信用卡验证。
+配置socks代理 我比较懒也懒得配置sockshadow。直接使用ssh直接在本地启个socks代理。
+ssh -D 127.0.0.0:7000 -i key.pem aws-ecs-ip  使用polipo 将socks代理转http代理 mac下安装 polipo
+brew install polipo  polipo socksParentProxy=localhost:7000 proxyAddress=0.0.0.0  这样就在mac上启动了一个http代理默认的监听端口是8123
+docker配置代理 刚才配置的http代理是在本地mac上,如果你要配置在别的机器上原理一样。
+vi /etc/systemd/system/docker.service.d/http-proxy.conf [Service] Environment=&amp;quot;HTTP_PROXY=http://proxy_ip:8123/&amp;quot;  systemctl daemon-reload systemctl restart docker  配置完后docker就可以使用这个http代理来pull镜像" />
     <meta name="twitter:image" content="https://myonlyzzy.github.io/img/avatar.jpg" />
   
 
@@ -184,7 +196,51 @@
       <h1 class="post-title">Docker Proxy</h1>
       <p class="post-meta">@ · Nov 7, 2017 · 1 min read</p>
     </header>
-    <article class="post-content"><p>hello,world!!!</p>
+    <article class="post-content">
+
+<h1 id="配置docker-代理">配置docker 代理</h1>
+
+<blockquote>
+<p>前段时间由于要使用kubespray 部署一个k8s集群,但是kubespray使用的镜像都是gcr和quay的镜像被gfw屏蔽了,安装时pull不下来镜像.本来打算使用网易镜像中心有个哥们传上去的镜像但是版本很多不对,想了想还是自己搭个代理使用起来方便。</p>
+</blockquote>
+
+<h2 id="申请一个aws的一年免费服务器">申请一个aws的一年免费服务器</h2>
+
+<p>这个不用多说反正申请就好了,当然你得用信用卡,需要信用卡验证。</p>
+
+<h2 id="配置socks代理">配置socks代理</h2>
+
+<p>我比较懒也懒得配置sockshadow。直接使用ssh直接在本地启个socks代理。</p>
+
+<pre><code>ssh -D 127.0.0.0:7000 -i key.pem aws-ecs-ip
+</code></pre>
+
+<h2 id="使用polipo-将socks代理转http代理">使用polipo 将socks代理转http代理</h2>
+
+<p>mac下安装 polipo</p>
+
+<pre><code>brew install polipo
+</code></pre>
+
+<pre><code>polipo socksParentProxy=localhost:7000 proxyAddress=0.0.0.0
+</code></pre>
+
+<p>这样就在mac上启动了一个http代理默认的监听端口是8123</p>
+
+<h2 id="docker配置代理">docker配置代理</h2>
+
+<p>刚才配置的http代理是在本地mac上,如果你要配置在别的机器上原理一样。</p>
+
+<pre><code>vi /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment=&quot;HTTP_PROXY=http://proxy_ip:8123/&quot;
+</code></pre>
+
+<pre><code>systemctl daemon-reload
+systemctl restart docker
+</code></pre>
+
+<p>配置完后docker就可以使用这个http代理来pull镜像</p>
 </article>
     <footer class="post-footer">
       

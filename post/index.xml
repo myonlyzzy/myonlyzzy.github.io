@@ -17,7 +17,13 @@
       <pubDate>Tue, 07 Nov 2017 14:56:29 +0800</pubDate>
       
       <guid>https://myonlyzzy.github.io/post/docker-proxy/</guid>
-      <description>hello,world!!!</description>
+      <description>配置docker 代理  前段时间由于要使用kubespray 部署一个k8s集群,但是kubespray使用的镜像都是gcr和quay的镜像被gfw屏蔽了,安装时pull不下来镜像.本来打算使用网易镜像中心有个哥们传上去的镜像但是版本很多不对,想了想还是自己搭个代理使用起来方便。
+ 申请一个aws的一年免费服务器 这个不用多说反正申请就好了,当然你得用信用卡,需要信用卡验证。
+配置socks代理 我比较懒也懒得配置sockshadow。直接使用ssh直接在本地启个socks代理。
+ssh -D 127.0.0.0:7000 -i key.pem aws-ecs-ip  使用polipo 将socks代理转http代理 mac下安装 polipo
+brew install polipo  polipo socksParentProxy=localhost:7000 proxyAddress=0.0.0.0  这样就在mac上启动了一个http代理默认的监听端口是8123
+docker配置代理 刚才配置的http代理是在本地mac上,如果你要配置在别的机器上原理一样。
+vi /etc/systemd/system/docker.service.d/http-proxy.conf [Service] Environment=&amp;quot;HTTP_PROXY=http://proxy_ip:8123/&amp;quot;  systemctl daemon-reload systemctl restart docker  配置完后docker就可以使用这个http代理来pull镜像</description>
     </item>
     
     <item>
@@ -29,15 +35,6 @@
       <description>golang net/http包详解  net/http 包是进行web和网络编程经常用到的一个包。详细了解golang 标准库里的这个包会对提高网路编程技巧有帮助 * TCP编程
 func main() { l, err := net.Listen(&amp;quot;tcp&amp;quot;, &amp;quot;:2000&amp;quot;) if err != nil { log.Fatal(err) } defer l.Close() for { // Wait for a connection. conn, err := l.Accept() if err != nil { log.Fatal(err) } go func(c net.Conn) { // Echo all incoming data. io.Copy(os.Stdout,c) // Shut down the connection. c.Close() }(conn) } }   在上面这段代码里面主要有3点
  Net.liseten() liseten 返回一个listener interface 的实例</description>
-    </item>
-    
-    <item>
-      <title>Test</title>
-      <link>https://myonlyzzy.github.io/post/test/</link>
-      <pubDate>Wed, 25 Oct 2017 14:03:50 +0800</pubDate>
-      
-      <guid>https://myonlyzzy.github.io/post/test/</guid>
-      <description>hello world!sfsfsfsfs</description>
     </item>
     
   </channel>
