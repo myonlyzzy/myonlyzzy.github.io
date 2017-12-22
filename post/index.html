@@ -193,13 +193,6 @@
     <p class="post-meta">@ · Nov 7, 2017 · 1 min read</p>
   </header>
   
-  <p class="post-summary">配置docker 代理  前段时间由于要使用kubespray 部署一个k8s集群,但是kubespray使用的镜像都是gcr和quay的镜像被gfw屏蔽了,安装时pull不下来镜像.本来打算使用网易镜像中心有个哥们传上去的镜像但是版本很多不对,想了想还是自己搭个代理使用起来方便。
- 申请一个aws的一年免费服务器 这个不用多说反正申请就好了,当然你得用信用卡,需要信用卡验证。
-配置socks代理 我比较懒也懒得配置sockshadow。直接使用ssh直接在本地启个socks代理。
-ssh -D 127.0.0.0:7000 -i key.pem aws-ecs-ip  使用polipo 将socks代理转http代理 mac下安装 polipo
-brew install polipo  polipo socksParentProxy=localhost:7000 proxyAddress=0.0.0.0  这样就在mac上启动了一个http代理默认的监听端口是8123
-docker配置代理 刚才配置的http代理是在本地mac上,如果你要配置在别的机器上原理一样。
-vi /etc/systemd/system/docker.service.d/http-proxy.conf [Service] Environment=&#34;HTTP_PROXY=http://proxy_ip:8123/&#34;  systemctl daemon-reload systemctl restart docker  配置完后docker就可以使用这个http代理来pull镜像</p>
   <footer class="post-footer">
     <a class="read-more" href="https://myonlyzzy.github.io/post/docker-proxy/">Read More →</a>
   </footer>
@@ -212,25 +205,8 @@ vi /etc/systemd/system/docker.service.d/http-proxy.conf [Service] Environment=&#
     <p class="post-meta">@ · Oct 25, 2017 · 4 min read</p>
   </header>
   
-  <p class="post-summary">golang net/http包详解  net/http 包是进行web和网络编程经常用到的一个包。详细了解golang 标准库里的这个包会对提高网路编程技巧有帮助 * TCP编程
-func main() { l, err := net.Listen(&#34;tcp&#34;, &#34;:2000&#34;) if err != nil { log.Fatal(err) } defer l.Close() for { // Wait for a connection. conn, err := l.Accept() if err != nil { log.Fatal(err) } go func(c net.Conn) { // Echo all incoming data. io.Copy(os.Stdout,c) // Shut down the connection. c.Close() }(conn) } }   在上面这段代码里面主要有3点
- Net.liseten() liseten 返回一个listener interface 的实例</p>
   <footer class="post-footer">
     <a class="read-more" href="https://myonlyzzy.github.io/post/golang-net-http/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="https://myonlyzzy.github.io/post/go-tip/" class="post-link"></a></h3>
-    <p class="post-meta">@ · Jan 1, 0001 · 1 min read</p>
-  </header>
-  
-  <p class="post-summary">Golang 里面的小技巧
- 处理多个函数值传递给一个结构体实例。假如有这个一种情况。   type config struct{ path string name string age int … } type ConFun fun(* config)//ConFun 是一种类型(有参数和返回值识别的) func NewConfig( cf …ConFun){ var con config for _,f =range cf{ f(&amp;con) } } func WritePath（path string）ConFun{ //b 负责实现这个ConFun return func（c *config){ //实现了一个type ConFun的实 c.path=path } } NewConfig(WritePath(&#34;/tmp&#34;),WriteName(&#34;kevin&#34;),WriteAge(25))   为什么要这样写构造函数呢.这样写的目的是让我们的构造函数更方便扩展,如同上面的例子,pah 是必须传递的一个参数,但NewConfig有多个参数,也许现在我们只需要给path赋值,但是随着业务的发展我们也许需要给Config中的其他属性赋值,但是我们的NewConfig函数已经写死了如果我们改了NewConfig那么所有的调用NewConfig来构造Config的代码都得改。现在看这样写的优势就体现出来了。只需要增加一个函数就可以扩展。   func WriteA(name string)Confun{ // return func(c *config){ c.name=name } }  ​</p>
-  <footer class="post-footer">
-    <a class="read-more" href="https://myonlyzzy.github.io/post/go-tip/">Read More →</a>
   </footer>
 </article>
 

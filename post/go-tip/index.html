@@ -15,7 +15,7 @@
 
   
   <meta name="author" content="" />
-  <meta name="description" content="Golang 里面的小技巧
+  <meta name="description" content="#Golang 里面的小技巧
  处理多个函数值传递给一个结构体实例。假如有这个一种情况。   type config struct{ path string name string age int … } type ConFun fun(* config)//ConFun 是一种类型(有参数和返回值识别的) func NewConfig( cf …ConFun){ var con config for _,f =range cf{ f(&amp;amp;con) } } func WritePath（path string）ConFun{ //b 负责实现这个ConFun return func（c *config){ //实现了一个type ConFun的实 c.path=path } } NewConfig(WritePath(&amp;quot;/tmp&amp;quot;),WriteName(&amp;quot;kevin&amp;quot;),WriteAge(25))   为什么要这样写构造函数呢.这样写的目的是让我们的构造函数更方便扩展,如同上面的例子,pah 是必须传递的一个参数,但NewConfig有多个参数,也许现在我们只需要给path赋值,但是随着业务的发展我们也许需要给Config中的其他属性赋值,但是我们的NewConfig函数已经写死了如果我们改了NewConfig那么所有的调用NewConfig来构造Config的代码都得改。现在看这样写的优势就体现出来了。只需要增加一个函数就可以扩展。   func WriteA(name string)Confun{ // return func(c *config){ c.name=name } }  ​" />
 
   
@@ -23,7 +23,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@gohugoio" />
     <meta name="twitter:title" content="" />
-    <meta name="twitter:description" content="Golang 里面的小技巧
+    <meta name="twitter:description" content="#Golang 里面的小技巧
  处理多个函数值传递给一个结构体实例。假如有这个一种情况。   type config struct{ path string name string age int … } type ConFun fun(* config)//ConFun 是一种类型(有参数和返回值识别的) func NewConfig( cf …ConFun){ var con config for _,f =range cf{ f(&amp;amp;con) } } func WritePath（path string）ConFun{ //b 负责实现这个ConFun return func（c *config){ //实现了一个type ConFun的实 c.path=path } } NewConfig(WritePath(&amp;quot;/tmp&amp;quot;),WriteName(&amp;quot;kevin&amp;quot;),WriteAge(25))   为什么要这样写构造函数呢.这样写的目的是让我们的构造函数更方便扩展,如同上面的例子,pah 是必须传递的一个参数,但NewConfig有多个参数,也许现在我们只需要给path赋值,但是随着业务的发展我们也许需要给Config中的其他属性赋值,但是我们的NewConfig函数已经写死了如果我们改了NewConfig那么所有的调用NewConfig来构造Config的代码都得改。现在看这样写的优势就体现出来了。只需要增加一个函数就可以扩展。   func WriteA(name string)Confun{ // return func(c *config){ c.name=name } }  ​" />
     <meta name="twitter:image" content="https://myonlyzzy.github.io/img/avatar.jpg" />
   
@@ -186,7 +186,7 @@
       <h1 class="post-title"></h1>
       <p class="post-meta">@ · Jan 1, 0001 · 1 min read</p>
     </header>
-    <article class="post-content"><p>Golang 里面的小技巧</p>
+    <article class="post-content"><p>#Golang 里面的小技巧</p>
 
 <ul>
 <li>处理多个函数值传递给一个结构体实例。假如有这个一种情况。</li>
