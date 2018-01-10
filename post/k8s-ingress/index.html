@@ -213,7 +213,7 @@ ingress 接着上面的nginx思路。为了暴露service 起个nginx,但是如�
 
 <p>但是我们想想nodeport这种方式感觉太丑陋,load balance太烧钱,有很多服务其实我们只需要一个子域名或者url就好了根本不需要loadbalance。是不是突然想到我们部署一个nginx服务,给nginx一个ip。然后通过nginx代理就好了。实际上ingress controller就是一个nginx。但是有比nginx多了一些东西。啥东西呢？上图。</p>
 
-<p><img src="/Users/myonlyzzy/Desktop/屏幕快照 2018-01-10 下午4.52.49.png" alt="屏幕快照 2018-01-10 下午4.52.49" /></p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1fnbmiii44xj31k207078v.jpg" alt="屏幕快照 2018-01-10 下午4.52.49" /></p>
 
 <p>我们看到实际上这个nginx容器起了几个进程</p>
 
