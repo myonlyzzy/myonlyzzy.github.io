@@ -74,5 +74,20 @@ istio 安装 istio安装需要k8s 1.7.3 以上版本。
 ​</description>
     </item>
     
+    <item>
+      <title>ks8 ingress</title>
+      <link>https://myonlyzzy.github.io/post/k8s-ingress/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/k8s-ingress/</guid>
+      <description>k8s ingress k8s中为什么要创造一个ingress这样的resource,什么是ingress controller,怎样通过ingress controller来暴露服务。
+什么是ingress controller 我们知道在k8s集群中如果我们要把集群中的一个service向集群外部来暴露,有几种选择,
+ 通过制定service type为nodeport 暴露在node的一个端口上。 通过制定service type为load balance 从云提供商哪里申请一个公望ip来暴露。  但是我们想想nodeport这种方式感觉太丑陋,load balance太烧钱,有很多服务其实我们只需要一个子域名或者url就好了根本不需要loadbalance。是不是突然想到我们部署一个nginx服务,给nginx一个ip。然后通过nginx代理就好了。实际上ingress controller就是一个nginx。但是有比nginx多了一些东西。啥东西呢？上图。
+我们看到实际上这个nginx容器起了几个进程
+ dumb-init 这个是process监控。 nginx-ingress-controller nginx 进程  为什么要起这么多进程,都是干啥用的？
+ingress 接着上面的nginx思路。为了暴露service 起个nginx,但是如果不断的创建需要expose 的service,难道要不断修改nginx 配置增加upstream？难到不是吗?好像现在使用nginx增加后端的都是要修改的。所以我们把config 写在configmap中每次手动修改，重启容器？太low了。微服务的时代几千上万的服务改死你。这就是ingress这个resource的作用。具体怎么实现呢，记得安装ingress controller需要增加一堆clusterrole吗？这些role干啥用的。实际上就是给nginx-ingress-controller watch list endpoint ，ingress 各种资源用的。nginx-ingress-controller会watch ingress资源。ingess 中我们定义的backend service port什么的会被它动态读到然后增加到nginx的config中。
+所以有nginx-ingress-controller 也有haproxy-ingress-controller 各种controller。</description>
+    </item>
+    
   </channel>
 </rss>

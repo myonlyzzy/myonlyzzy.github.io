@@ -52,4 +52,8 @@
     <priority>0</priority>
   </url>
   
+  <url>
+    <loc>https://myonlyzzy.github.io/post/k8s-ingress/</loc>
+  </url>
+  
 </urlset>

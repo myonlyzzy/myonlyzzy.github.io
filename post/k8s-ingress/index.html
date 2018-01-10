@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>ks8 ingress</title>
+
+  
+  
+
+
+
+
+  
+  <meta name="author" content="" />
+  <meta name="description" content="k8s ingress k8s中为什么要创造一个ingress这样的resource,什么是ingress controller,怎样通过ingress controller来暴露服务。
+什么是ingress controller 我们知道在k8s集群中如果我们要把集群中的一个service向集群外部来暴露,有几种选择,
+ 通过制定service type为nodeport 暴露在node的一个端口上。 通过制定service type为load balance 从云提供商哪里申请一个公望ip来暴露。  但是我们想想nodeport这种方式感觉太丑陋,load balance太烧钱,有很多服务其实我们只需要一个子域名或者url就好了根本不需要loadbalance。是不是突然想到我们部署一个nginx服务,给nginx一个ip。然后通过nginx代理就好了。实际上ingress controller就是一个nginx。但是有比nginx多了一些东西。啥东西呢？上图。
+我们看到实际上这个nginx容器起了几个进程
+ dumb-init 这个是process监控。 nginx-ingress-controller nginx 进程  为什么要起这么多进程,都是干啥用的？
+ingress 接着上面的nginx思路。为了暴露service 起个nginx,但是如果不断的创建需要expose 的service,难道要不断修改nginx 配置增加upstream？难到不是吗?好像现在使用nginx增加后端的都是要修改的。所以我们把config 写在configmap中每次手动修改，重启容器？太low了。微服务的时代几千上万的服务改死你。这就是ingress这个resource的作用。具体怎么实现呢，记得安装ingress controller需要增加一堆clusterrole吗？这些role干啥用的。实际上就是给nginx-ingress-controller watch list endpoint ，ingress 各种资源用的。nginx-ingress-controller会watch ingress资源。ingess 中我们定义的backend service port什么的会被它动态读到然后增加到nginx的config中。
+所以有nginx-ingress-controller 也有haproxy-ingress-controller 各种controller。" />
+
+  
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@gohugoio" />
+    <meta name="twitter:title" content="ks8 ingress" />
+    <meta name="twitter:description" content="k8s ingress k8s中为什么要创造一个ingress这样的resource,什么是ingress controller,怎样通过ingress controller来暴露服务。
+什么是ingress controller 我们知道在k8s集群中如果我们要把集群中的一个service向集群外部来暴露,有几种选择,
+ 通过制定service type为nodeport 暴露在node的一个端口上。 通过制定service type为load balance 从云提供商哪里申请一个公望ip来暴露。  但是我们想想nodeport这种方式感觉太丑陋,load balance太烧钱,有很多服务其实我们只需要一个子域名或者url就好了根本不需要loadbalance。是不是突然想到我们部署一个nginx服务,给nginx一个ip。然后通过nginx代理就好了。实际上ingress controller就是一个nginx。但是有比nginx多了一些东西。啥东西呢？上图。
+我们看到实际上这个nginx容器起了几个进程
+ dumb-init 这个是process监控。 nginx-ingress-controller nginx 进程  为什么要起这么多进程,都是干啥用的？
+ingress 接着上面的nginx思路。为了暴露service 起个nginx,但是如果不断的创建需要expose 的service,难道要不断修改nginx 配置增加upstream？难到不是吗?好像现在使用nginx增加后端的都是要修改的。所以我们把config 写在configmap中每次手动修改，重启容器？太low了。微服务的时代几千上万的服务改死你。这就是ingress这个resource的作用。具体怎么实现呢，记得安装ingress controller需要增加一堆clusterrole吗？这些role干啥用的。实际上就是给nginx-ingress-controller watch list endpoint ，ingress 各种资源用的。nginx-ingress-controller会watch ingress资源。ingess 中我们定义的backend service port什么的会被它动态读到然后增加到nginx的config中。
+所以有nginx-ingress-controller 也有haproxy-ingress-controller 各种controller。" />
+    <meta name="twitter:image" content="https://myonlyzzy.github.io/img/avatar.jpg" />
+  
+
+
+
+
+<meta name="generator" content="Hugo 0.24.1" />
+
+
+<link rel="canonical" href="https://myonlyzzy.github.io/post/k8s-ingress/" />
+<link rel="alternative" href="/index.xml" title="Myonlyzzy Blog" type="application/atom+xml" />
+
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+
+
+<meta name="robots" content="index,follow" />
+<meta name="referrer" content="origin-when-cross-origin" />
+
+
+
+
+
+
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Myonlyzzy Blog" />
+<meta name="msapplication-tooltip" content="Myonlyzzy Blog" />
+<meta name='msapplication-navbutton-color' content="#5fbf5e" />
+<meta name="msapplication-TileColor" content="#5fbf5e" />
+<meta name="msapplication-TileImage" content="/img/tile-image-windows.png" />
+<link rel="icon" href="/img/favicon.ico" />
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+<link rel="icon" sizes="192x192" href="/img/touch-icon-android.png" />
+<link rel="apple-touch-icon" href="/img/touch-icon-apple.png" />
+<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5fbf5e" />
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
+
+<link rel="stylesheet" href="/css/bundle.css" />
+
+
+  
+  <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/video.js/6.2.8/ie8/videojs-ie8.min.js"></script>
+  <![endif]-->
+
+<!--[if lte IE 11]>
+    <script src="//cdn.bootcss.com/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+
+<script src="//cdn.bootcss.com/object-fit-images/3.2.3/ofi.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/smooth-scroll/12.1.4/js/smooth-scroll.polyfills.min.js"></script>
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="" alt="Avatar">
+  
+  <h2 class="title">Myonlyzzy Blog</h2>
+  
+  <p class="subtitle"></p>
+  <button class="menu-toggle" type="button">
+    <span class="icon icon-menu"></span>
+  </button>
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item  is-active"><a href="/">Home</a></li>
+      
+        <li class="menu-item "><a href="https://github.com/myonlyzzy/">Works</a></li>
+      
+        <li class="menu-item "><a href="/about/">About</a></li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list">
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <li class="social-item">
+        <a href="/index.xml"><span class="icon icon-rss" title="RSS"></span></a>
+      </li>
+
+    </ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">ks8 ingress</h1>
+      <p class="post-meta">@ · Jan 1, 0001 · 1 min read</p>
+    </header>
+    <article class="post-content">
+
+<h1 id="k8s-ingress">k8s ingress</h1>
+
+<p>k8s中为什么要创造一个ingress这样的resource,什么是ingress controller,怎样通过ingress controller来暴露服务。</p>
+
+<h2 id="什么是ingress-controller">什么是ingress controller</h2>
+
+<p>我们知道在k8s集群中如果我们要把集群中的一个service向集群外部来暴露,有几种选择,</p>
+
+<ol>
+<li>通过制定service type为nodeport 暴露在node的一个端口上。</li>
+<li>通过制定service type为load balance 从云提供商哪里申请一个公望ip来暴露。</li>
+</ol>
+
+<p>但是我们想想nodeport这种方式感觉太丑陋,load balance太烧钱,有很多服务其实我们只需要一个子域名或者url就好了根本不需要loadbalance。是不是突然想到我们部署一个nginx服务,给nginx一个ip。然后通过nginx代理就好了。实际上ingress controller就是一个nginx。但是有比nginx多了一些东西。啥东西呢？上图。</p>
+
+<p><img src="/Users/myonlyzzy/Desktop/屏幕快照 2018-01-10 下午4.52.49.png" alt="屏幕快照 2018-01-10 下午4.52.49" /></p>
+
+<p>我们看到实际上这个nginx容器起了几个进程</p>
+
+<ol>
+<li>dumb-init 这个是process监控。</li>
+<li>nginx-ingress-controller</li>
+<li>nginx 进程</li>
+</ol>
+
+<p><strong>为什么要起这么多进程,都是干啥用的？</strong></p>
+
+<h2 id="ingress">ingress</h2>
+
+<p>接着上面的nginx思路。为了暴露service 起个nginx,但是如果不断的创建需要expose 的service,难道要不断修改nginx 配置增加upstream？难到不是吗?好像现在使用nginx增加后端的都是要修改的。所以我们把config 写在configmap中每次手动修改，重启容器？太low了。微服务的时代几千上万的服务改死你。这就是ingress这个resource的作用。具体怎么实现呢，记得安装ingress controller需要增加一堆clusterrole吗？这些role干啥用的。实际上就是给nginx-ingress-controller watch list  endpoint ，ingress 各种资源用的。nginx-ingress-controller会watch ingress资源。ingess 中我们定义的backend service port什么的会被它动态读到然后增加到nginx的config中。</p>
+
+<p>所以有nginx-ingress-controller 也有haproxy-ingress-controller 各种controller。</p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>736703</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  <footer class="site-footer">
+  <p>© 2017-2018 Myonlyzzy Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank">Nuo</a>.</p>
+  
+</footer>
+
+
+
+<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\[','\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+<script src="/js/bundle.js"></script>
+
+
+
+
+  </body>
+</html>
