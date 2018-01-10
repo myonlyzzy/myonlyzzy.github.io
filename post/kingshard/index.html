@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Docker Proxy</title>
+
+  
+  
+
+
+
+
+  
+  <meta name="author" content="" />
+  <meta name="description" content="kingshard 代码  Config struct   type Config struct { Addr string `yaml:&amp;quot;addr&amp;quot;` User string `yaml:&amp;quot;user&amp;quot;` Password string `yaml:&amp;quot;password&amp;quot;` WebAddr string `yaml:&amp;quot;web_addr&amp;quot;` WebUser string `yaml:&amp;quot;web_user&amp;quot;` WebPassword string `yaml:&amp;quot;web_password&amp;quot;` LogPath string `yaml:&amp;quot;log_path&amp;quot;` LogLevel string `yaml:&amp;quot;log_level&amp;quot;` LogSql string `yaml:&amp;quot;log_sql&amp;quot;` SlowLogTime int `yaml:&amp;quot;slow_log_time&amp;quot;` AllowIps string `yaml:&amp;quot;allow_ips&amp;quot;` BlsFile string `yaml:&amp;quot;blacklist_sql_file&amp;quot;` Charset string `yaml:&amp;quot;proxy_charset&amp;quot;` Nodes []NodeConfig `yaml:&amp;quot;nodes&amp;quot;` Schema SchemaConfig `yaml:&amp;quot;schema&amp;quot;` }   type NodeConfig struct { Name string `yaml:&amp;quot;name&amp;quot;` DownAfterNoAlive int `yaml:&amp;quot;down_after_noalive&amp;quot;` MaxConnNum int `yaml:&amp;quot;max_conns_limit&amp;quot;` User string `yaml:&amp;quot;user&amp;quot;` Password string `yaml:&amp;quot;password&amp;quot;` Master string `yaml:&amp;quot;master&amp;quot;` Slave string `yaml:&amp;quot;slave&amp;quot;` }  ​" />
+
+  
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@gohugoio" />
+    <meta name="twitter:title" content="Docker Proxy" />
+    <meta name="twitter:description" content="kingshard 代码  Config struct   type Config struct { Addr string `yaml:&amp;quot;addr&amp;quot;` User string `yaml:&amp;quot;user&amp;quot;` Password string `yaml:&amp;quot;password&amp;quot;` WebAddr string `yaml:&amp;quot;web_addr&amp;quot;` WebUser string `yaml:&amp;quot;web_user&amp;quot;` WebPassword string `yaml:&amp;quot;web_password&amp;quot;` LogPath string `yaml:&amp;quot;log_path&amp;quot;` LogLevel string `yaml:&amp;quot;log_level&amp;quot;` LogSql string `yaml:&amp;quot;log_sql&amp;quot;` SlowLogTime int `yaml:&amp;quot;slow_log_time&amp;quot;` AllowIps string `yaml:&amp;quot;allow_ips&amp;quot;` BlsFile string `yaml:&amp;quot;blacklist_sql_file&amp;quot;` Charset string `yaml:&amp;quot;proxy_charset&amp;quot;` Nodes []NodeConfig `yaml:&amp;quot;nodes&amp;quot;` Schema SchemaConfig `yaml:&amp;quot;schema&amp;quot;` }   type NodeConfig struct { Name string `yaml:&amp;quot;name&amp;quot;` DownAfterNoAlive int `yaml:&amp;quot;down_after_noalive&amp;quot;` MaxConnNum int `yaml:&amp;quot;max_conns_limit&amp;quot;` User string `yaml:&amp;quot;user&amp;quot;` Password string `yaml:&amp;quot;password&amp;quot;` Master string `yaml:&amp;quot;master&amp;quot;` Slave string `yaml:&amp;quot;slave&amp;quot;` }  ​" />
+    <meta name="twitter:image" content="https://myonlyzzy.github.io/img/avatar.jpg" />
+  
+
+
+
+
+<meta name="generator" content="Hugo 0.24.1" />
+
+
+<link rel="canonical" href="https://myonlyzzy.github.io/post/kingshard/" />
+<link rel="alternative" href="/index.xml" title="Myonlyzzy Blog" type="application/atom+xml" />
+
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+
+
+<meta name="robots" content="index,follow" />
+<meta name="referrer" content="origin-when-cross-origin" />
+
+
+
+
+
+
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Myonlyzzy Blog" />
+<meta name="msapplication-tooltip" content="Myonlyzzy Blog" />
+<meta name='msapplication-navbutton-color' content="#5fbf5e" />
+<meta name="msapplication-TileColor" content="#5fbf5e" />
+<meta name="msapplication-TileImage" content="/img/tile-image-windows.png" />
+<link rel="icon" href="/img/favicon.ico" />
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+<link rel="icon" sizes="192x192" href="/img/touch-icon-android.png" />
+<link rel="apple-touch-icon" href="/img/touch-icon-apple.png" />
+<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5fbf5e" />
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
+
+<link rel="stylesheet" href="/css/bundle.css" />
+
+
+  
+  <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/video.js/6.2.8/ie8/videojs-ie8.min.js"></script>
+  <![endif]-->
+
+<!--[if lte IE 11]>
+    <script src="//cdn.bootcss.com/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+
+<script src="//cdn.bootcss.com/object-fit-images/3.2.3/ofi.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/smooth-scroll/12.1.4/js/smooth-scroll.polyfills.min.js"></script>
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="" alt="Avatar">
+  
+  <h2 class="title">Myonlyzzy Blog</h2>
+  
+  <p class="subtitle"></p>
+  <button class="menu-toggle" type="button">
+    <span class="icon icon-menu"></span>
+  </button>
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item  is-active"><a href="/">Home</a></li>
+      
+        <li class="menu-item "><a href="https://github.com/myonlyzzy/">Works</a></li>
+      
+        <li class="menu-item "><a href="/about/">About</a></li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list">
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <li class="social-item">
+        <a href="/index.xml"><span class="icon icon-rss" title="RSS"></span></a>
+      </li>
+
+    </ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Docker Proxy</h1>
+      <p class="post-meta">@ · Nov 7, 2017 · 2 min read</p>
+    </header>
+    <article class="post-content">
+
+<h1 id="kingshard-代码">kingshard  代码</h1>
+
+<ul>
+<li>Config struct</li>
+</ul>
+
+<pre><code>  type Config struct {
+  	Addr     string `yaml:&quot;addr&quot;`
+  	User     string `yaml:&quot;user&quot;`
+  	Password string `yaml:&quot;password&quot;`
+
+  	WebAddr     string `yaml:&quot;web_addr&quot;`
+  	WebUser     string `yaml:&quot;web_user&quot;`
+  	WebPassword string `yaml:&quot;web_password&quot;`
+
+  	LogPath     string       `yaml:&quot;log_path&quot;`
+  	LogLevel    string       `yaml:&quot;log_level&quot;`
+  	LogSql      string       `yaml:&quot;log_sql&quot;`
+  	SlowLogTime int          `yaml:&quot;slow_log_time&quot;`
+  	AllowIps    string       `yaml:&quot;allow_ips&quot;`
+  	BlsFile     string       `yaml:&quot;blacklist_sql_file&quot;`
+  	Charset     string       `yaml:&quot;proxy_charset&quot;`
+  	Nodes       []NodeConfig `yaml:&quot;nodes&quot;`
+
+  	Schema SchemaConfig `yaml:&quot;schema&quot;`
+  }
+</code></pre>
+
+<pre><code>  type NodeConfig struct {
+  Name             string `yaml:&quot;name&quot;`
+  DownAfterNoAlive int    `yaml:&quot;down_after_noalive&quot;`
+  MaxConnNum       int    `yaml:&quot;max_conns_limit&quot;`
+
+  User     string `yaml:&quot;user&quot;`
+  Password string `yaml:&quot;password&quot;`
+
+  Master string `yaml:&quot;master&quot;`
+  Slave  string `yaml:&quot;slave&quot;`
+  }
+</code></pre>
+
+<p>​</p>
+
+<p>Config 结构在kingshard/config/config.go 包中 里面主要定义了各种Config,NodeConfig,SchemaConfig,ShardConfig 4个结构，ParseConfigData ParseConfigFile WriteConfigFile 4个方法，一个全包变量configFileName api配置文文件保存路径。ParseConfigFile 通过调用ParseConfigData解析主配置文件到一个Config 实例</p>
+
+<ul>
+<li><p>Server struct</p>
+
+<pre><code>class Server {
+cfg *config.Config
+addr string
+user string
+password string
+statusIndex int32
+status []int32
+logSqlIndex int32
+logSql []string
+slowLogTimeIndex int32
+slowLogTime []int
+blacklistSqlsIndex int32
+blacklistSqls []*BlacklistSqls
+allowipsIndex int32
+allowips [][]net.IP
+counter *Counter
+nodes map[string]*backend.Node //key为config中的node name。 
+schema *Schema
+listener net.Listener
+running bool
+} 
+</code></pre></li>
+
+<li><p>NewServer  根据cfg里面的数据构造一个Server实例.会同时调用Server实例的parseAllowIPs, parseBlackListSqls,</p></li>
+</ul>
+
+<p>parseNodes,parseSchema 几个方法。</p>
+
+<ul>
+<li>parseNodes方法负责对config中的node进行去重和调用parseNode解析Nodeconfig 然后实例一个backend.Node 最后赋值给Sever实例 nodes。</li>
+</ul>
+
+<pre><code>type Node struct {
+	Cfg config.NodeConfig
+
+	sync.RWMutex
+	Master *DB
+
+	Slave          []*DB
+	LastSlaveIndex int
+	RoundRobinQ    []int
+	SlaveWeights   []int
+
+	DownAfterNoAlive time.Duration
+}
+type DB struct {
+	sync.RWMutex
+
+	addr     string
+	user     string
+	password string
+	db       string
+	state    int32
+
+	maxConnNum  int
+	InitConnNum int
+	idleConns   chan *Conn
+	cacheConns  chan *Conn
+	checkConn   *Conn
+	lastPing    int64
+}
+//Conn 表示一个kingshard和后端mysql直接的一个连接。包括一个tcp连接以及建立连接的用户名密码等
+type Conn struct {
+	conn net.Conn
+
+	pkg *mysql.PacketIO
+
+	addr     string
+	user     string
+	password string
+	db       string
+
+	capability uint32
+
+	status uint16
+
+	collation mysql.CollationId
+	charset   string
+	salt      []byte
+
+	pushTimestamp int64
+	pkgErr        error
+}
+type PacketIO struct {
+	rb *bufio.Reader
+	wb io.Writer
+	Sequence uint8
+}
+</code></pre>
+
+<ul>
+<li>parseNode  func (s *Server) parseNode(cfg config.NodeConfig) (*backend.Node, error)</li>
+</ul>
+
+<p>parseNode负责通过NodeConfig 来实例Node。上面是Node的结构主要有 master *DB ,slave [] *DB,一个读写锁和一个NodeConfig。为了构造Node实例先生成一个空Node实例，然后调用了 Node 的 ParseSlave 和ParseMaster 方法通过node配置中的master 和slave地址构造。</p>
+
+<ul>
+<li>ParseMaster ParseSlave</li>
+</ul>
+
+<pre><code>func (n *Node) ParseMaster(masterStr string) error 
+func (n *Node) ParseSlave(slaveStr string) error 
+</code></pre>
+
+<ol>
+<li>ParseMaster 判断一下masterStr长度然后调用OpenDB 然后调用Open方法。
+
+<ul>
+<li>db.go Open 方法 Open方法负责构造一个DB实例。
+
+<ul>
+<li>dbname默认为空</li>
+<li>maxConnNum对应配置文件中的max_conns_limit 默认32.</li>
+<li>如果maxConnNum大于0且小于16 InitConnNum=maxConnNum，如果大于16为maxConnNum 的1/4.</li>
+<li>checkConn  是一个Conn实例 用于检查连接</li>
+<li>idleConns 是一个长度为maxConnNum,类型为Conn的缓冲channel。用于存放空闲的</li>
+<li>cacheConns 跟idleConns一样。不同的地方是创建的maxConnNum个连接，前InitConnNum个被放入cacheConns,后maxConnNum-InitConnNum 个被放入idleConns中。而且idleConns中的连接为空连接。</li>
+<li>Conn的newConn方法，Open是调用newConn方法创建Conn实例的。newConn先new个空Conn然后调用Conn的Connect方法构造Conn实例。</li>
+<li>addr，user，password  就是db中的属性</li>
+<li>Connect 会调用Reconnect 调用net.Dial创建tcp连接赋值给conn。</li>
+</ul></li>
+</ul></li>
+<li>ParseSlave和ParseMaster 的逻辑差不多</li>
+<li>CheckNode CheckNode负责检查刚才建立的TCP连接的存活。</li>
+</ol>
+
+<p>###ClientConn处理连接的过程</p>
+
+<blockquote>
+<p>当Server.Run 最终会调用ClientConn的Run方法来处理连接到Server的连接。所以ClientConn中的方法基本包含了处理连接的逻辑。</p>
+</blockquote>
+
+<ol>
+<li>func (s *Server) onConn(c net.Conn)</li>
+</ol>
+
+<p>Server的onConn方法是将连接到Server实例的连接转换成ClientConn。然后调用ClientConn的Run方法</p>
+
+<ol>
+<li><p>func (c *ClientConn) Run()</p>
+
+<p>Run方法在一个永真for循环中调用readPacket方法读取数据包再交给dispatch方法处理。</p></li>
+
+<li><p>func (c *ClientConn) dispatch(data []byte) error</p></li>
+</ol>
+
+<p>dispatch方法负责通过解析数据包的第一个字节并根据第一个字节的内容在一个switch 中选择具体的处理函数</p>
+
+<ol>
+<li>func (c *ClientConn) handleQuery(sql string) (err error)<br /></li>
+</ol>
+
+<p>handleQuery方法负责处理cmd为COM_QUERY为3的的sql也是用的最多的sql命令。在handleQuery调用preHandleShard方法来预处理一下sql语句。</p>
+
+<ol>
+<li><p>func (c *ClientConn) preHandleShard(sql string) (bool, error)</p>
+
+<p>preHandleShard方法会先根据sql语句利用空格等分割生成一个string slice。再调用GetExecDB方法来构造一个ExecDB。再调用getBackendConn方法来从初始Server的时候建立的TCP连接中取的一个可用的连接。最后调用executeInNode方法来执行sql。根据放回的rs长度调用writeResultset或者WriteOK方法发送数据包到应用端。</p></li>
+
+<li><p>func (c *ClientConn) GetExecDB(tokens []string, sql string) (*ExecuteDB, error) 中会根据preHandleShard生成的slice swich不同的get函数 select 会到getSelectExecDB。</p></li>
+
+<li><p>func (c *ClientConn) getSelectExecDB(sql string, tokens []string, tokensLen int) (*ExecuteDB, error) 方法会</p></li>
+</ol>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  <footer class="site-footer">
+  <p>© 2017-2018 Myonlyzzy Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank">Nuo</a>.</p>
+  
+</footer>
+
+
+
+<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\[','\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+<script src="/js/bundle.js"></script>
+
+
+
+
+  </body>
+</html>

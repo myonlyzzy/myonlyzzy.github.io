@@ -36,6 +36,15 @@ vi /etc/systemd/system/docker.service.d/http-proxy.conf [Service] Environment=&a
     </item>
     
     <item>
+      <title>Docker Proxy</title>
+      <link>https://myonlyzzy.github.io/post/kingshard/</link>
+      <pubDate>Tue, 07 Nov 2017 14:56:29 +0800</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/kingshard/</guid>
+      <description>kingshard 代码  Config struct   type Config struct { Addr string `yaml:&amp;quot;addr&amp;quot;` User string `yaml:&amp;quot;user&amp;quot;` Password string `yaml:&amp;quot;password&amp;quot;` WebAddr string `yaml:&amp;quot;web_addr&amp;quot;` WebUser string `yaml:&amp;quot;web_user&amp;quot;` WebPassword string `yaml:&amp;quot;web_password&amp;quot;` LogPath string `yaml:&amp;quot;log_path&amp;quot;` LogLevel string `yaml:&amp;quot;log_level&amp;quot;` LogSql string `yaml:&amp;quot;log_sql&amp;quot;` SlowLogTime int `yaml:&amp;quot;slow_log_time&amp;quot;` AllowIps string `yaml:&amp;quot;allow_ips&amp;quot;` BlsFile string `yaml:&amp;quot;blacklist_sql_file&amp;quot;` Charset string `yaml:&amp;quot;proxy_charset&amp;quot;` Nodes []NodeConfig `yaml:&amp;quot;nodes&amp;quot;` Schema SchemaConfig `yaml:&amp;quot;schema&amp;quot;` }   type NodeConfig struct { Name string `yaml:&amp;quot;name&amp;quot;` DownAfterNoAlive int `yaml:&amp;quot;down_after_noalive&amp;quot;` MaxConnNum int `yaml:&amp;quot;max_conns_limit&amp;quot;` User string `yaml:&amp;quot;user&amp;quot;` Password string `yaml:&amp;quot;password&amp;quot;` Master string `yaml:&amp;quot;master&amp;quot;` Slave string `yaml:&amp;quot;slave&amp;quot;` }  ​</description>
+    </item>
+    
+    <item>
       <title>Golang Net Http</title>
       <link>https://myonlyzzy.github.io/post/golang-net-http/</link>
       <pubDate>Wed, 25 Oct 2017 14:26:52 +0800</pubDate>
@@ -44,6 +53,34 @@ vi /etc/systemd/system/docker.service.d/http-proxy.conf [Service] Environment=&a
       <description>golang net/http包详解  net/http 包是进行web和网络编程经常用到的一个包。详细了解golang 标准库里的这个包会对提高网路编程技巧有帮助 * TCP编程
 func main() { l, err := net.Listen(&amp;quot;tcp&amp;quot;, &amp;quot;:2000&amp;quot;) if err != nil { log.Fatal(err) } defer l.Close() for { // Wait for a connection. conn, err := l.Accept() if err != nil { log.Fatal(err) } go func(c net.Conn) { // Echo all incoming data. io.Copy(os.Stdout,c) // Shut down the connection. c.Close() }(conn) } }   在上面这段代码里面主要有3点
  Net.liseten() liseten 返回一个listener interface 的实例</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://myonlyzzy.github.io/post/istio/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/istio/</guid>
+      <description>istio详解 istio简介 istio是2017年google ibm lyft 开源的一个service mesh 组件,主要为k8s提供service comunication。istio现在还没有发布正式的生产环境可用的版本,不过目前在github的提交非常快,按照这个速度2018年肯定可以发布第一个release版本出来。
+istio 安装 istio安装需要k8s 1.7.3 以上版本。
+ 从https://github.com/istio/istio/releases 选择你想安装的版本.我这里是安装的0.3.0版本 下载地址为  https://github.com/istio/istio/releases/download/0.3.0/istio-0.3.0-linux.tar.gz,解压包。
+ 进入到 istio-0.3.0/install/kubernetes 目录.create -f ./istio.yaml 这个目录下有多个安装的yaml文件选择一个。
+ kubectl get all -n istio-system 查看一下svc pod的启动情况,如果有错误,kubectl describe 解决错误。
+  istio 各组件介绍  istio安装好以后可以看到有3个svc istio-ingress ,istio-mixer, istio-pilot 3个服务   Istio deploy. istio-ingress,istio-mixer,istio-pilot,istio-ca  部署应用  部署helloworld  在istio下的sample目录下有几个example可以用来作为部署学习。有一个helloworld 应用,其实就是一个yaml文件。在部署之前我们需要使用istioclt 修改helloworld.yaml istioctl kube-inject -f helloworld.yaml -o helloworld-istio.yaml
+实际上就是个deployment 的container中加入一个sidecar容器。
+可以看到加入了一个proxy_debug 容器。另外还会加入一个ingress,实际上就是向istio-ingress 注册了一个ingress 由它来代理流入到helloworld应用的流量。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://myonlyzzy.github.io/post/tidb-tip/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/tidb-tip/</guid>
+      <description>判断map中key是否存在  if _,ok := map[key];ok{
+​ //key 存在ok为true 不存为false
+}
+​</description>
     </item>
     
   </channel>

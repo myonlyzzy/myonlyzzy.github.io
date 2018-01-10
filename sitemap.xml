@@ -13,8 +13,21 @@
   </url>
   
   <url>
+    <loc>https://myonlyzzy.github.io/post/kingshard/</loc>
+    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://myonlyzzy.github.io/post/golang-net-http/</loc>
     <lastmod>2017-10-25T14:26:52+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myonlyzzy.github.io/post/istio/</loc>
+  </url>
+  
+  <url>
+    <loc>https://myonlyzzy.github.io/post/tidb-tip/</loc>
   </url>
   
   <url>
