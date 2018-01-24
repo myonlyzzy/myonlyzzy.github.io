@@ -75,6 +75,21 @@ istio 安装 istio安装需要k8s 1.7.3 以上版本。
     </item>
     
     <item>
+      <title>golang-sync-Pool</title>
+      <link>https://myonlyzzy.github.io/post/golang-sync-pool/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/golang-sync-pool/</guid>
+      <description>golang sync/Pool 的使用  最近有个项目开发,由于涉及创建大量的goroutine,所以考虑到要不要使用goroutine池.但一直对goroutine池的必要性存有疑虑,是否需要使用goroutine Pool.但是无意间了解到一个项目fasthttp,据称被net/http快10倍。有人称fasthttp比net/http快10倍的原因是goroutine池的使用,我感觉不是goroutine池而是临时对象池对性能提升比较大。
+ golang 官方对sync/pool 的介绍 官方的原话是这样说的.
+​ 这个池是一系列哪些需要单独保存或者检索的临时对象。任何存储在这个池中的都有可能在不通知的情况下随时删除。临时对象池是协程安全的。设计临时对象池的目的是为了缓存哪些已经分配好内存但现在不使用将来要使用的对象,从而减缓gc时候的压力。所以临时对象池可以用来建立高效的 线程安全的存储池。但是并不是对的所有存储池都适用。
+​ 临时对象池适用于管理哪些在多个包中可能同时重复调用和相互分享的的一组临时对象。临时对象池提供了一种跨多个调用者之上的缓冲分配方式
+​ 一个典型的使用临时对象池的例子是fmt包。fmt包管理了一个动态的临时输出缓冲区。当很多groutine需要调用fmt包打印输出时这个临时输出缓冲区扩大，反之就缩小。
+​ 但是,临时对象池不适合管理段生命周期对象的存储池，因为在这种情况下需要的额外开销会得不偿失。对于这种情况的最有效方式是建立自己的存储池。
+sync/Pool 实例 package main import ( &amp;quot;sync&amp;quot; &amp;quot;time&amp;quot; &amp;quot;fmt&amp;quot; ) type buffer []byte var bp=sync.Pool{ //这里有一点需要注意定义这个函数时候最好返回指针类型,如果你返回指针的话可以直接将这个指针赋值给接 口而不需要重新分配空间 New: func() interface{} { b:=make(buffer,1024) return &amp;amp;b }, } func main() { //test sync.Pool //不使用临时对象池 a:=time.Now().Unix() for i:=0;i&amp;lt;1000000000;i++{ obj:=make([]byte,1024) _=obj } b:=time.Now().Unix() for i:=0;i&amp;lt;1000000000;i++{ obj:=bp.Get().(*buffer) _=obj bp.Put(obj) } c:=time.Now().Unix() fmt.Println(&amp;quot;不使用临时对象池创建1000000000个bufer需要的时间:&amp;quot;,b-a,&amp;quot;s&amp;quot;) fmt.Println(&amp;quot;使用临时对象池创建buffer：&amp;quot;,c-b,&amp;quot;s&amp;quot;) }  在不使用临时对象池时,运行需要的时间比使用了临时对象池多10s钟。</description>
+    </item>
+    
+    <item>
       <title>ks8 ingress</title>
       <link>https://myonlyzzy.github.io/post/k8s-ingress/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
