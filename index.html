@@ -1,284 +1,383 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-us">
 <head>
 
-  <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.53" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <title>Myonlyzzy Blog</title>
+    <title>Myonlyzzy Blog | 专注与golang k8s</title>
+    <meta property="og:title" content="Myonlyzzy Blog | 专注与golang k8s">
+    <meta property="og:type" content="website">
+    <meta name="Keywords" content="golang,go语言,kubernetes,容器,docker,k8s">
+    <meta name="description" content="">
+    <meta property="og:url" content="https://myonlyzzy.github.io/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-  
-  
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://myonlyzzy.github.io/index.xml" title="Myonlyzzy Blog" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
-
-
-
-  
-  <meta name="author" content="" />
-  <meta name="description" content="" />
-
-  
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:site" content="@gohugoio" />
-  <meta name="twitter:title" content="Myonlyzzy Blog" />
-  <meta name="twitter:description" content="" />
-  <meta name="twitter:image" content="https://myonlyzzy.github.io/img/avatar.jpg" />
-
+    
 
 
-
-<meta name="generator" content="Hugo 0.24.1" />
-
-
-<link rel="canonical" href="https://myonlyzzy.github.io/" />
-<link rel="alternative" href="/index.xml" title="Myonlyzzy Blog" type="application/atom+xml" />
-
-
-<meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="format-detection" content="telephone=no,email=no,adress=no" />
-<meta http-equiv="Cache-Control" content="no-transform" />
-
-
-<meta name="robots" content="index,follow" />
-<meta name="referrer" content="origin-when-cross-origin" />
-
-
-
-
-
-
-
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Myonlyzzy Blog" />
-<meta name="msapplication-tooltip" content="Myonlyzzy Blog" />
-<meta name='msapplication-navbutton-color' content="#5fbf5e" />
-<meta name="msapplication-TileColor" content="#5fbf5e" />
-<meta name="msapplication-TileImage" content="/img/tile-image-windows.png" />
-<link rel="icon" href="/img/favicon.ico" />
-<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
-<link rel="icon" sizes="192x192" href="/img/touch-icon-android.png" />
-<link rel="apple-touch-icon" href="/img/touch-icon-apple.png" />
-<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5fbf5e" />
-
-
-
-<link rel="stylesheet" href="/css/bundle.css" />
-
-
-  
-  <!--[if lt IE 9]>
-    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <script src="//cdn.bootcss.com/video.js/6.2.8/ie8/videojs-ie8.min.js"></script>
-  <![endif]-->
-
-<!--[if lte IE 11]>
-    <script src="//cdn.bootcss.com/classlist/1.1.20170427/classList.min.js"></script>
-  <![endif]-->
-
-
-<script src="//cdn.bootcss.com/object-fit-images/3.2.3/ofi.min.js"></script>
-
-
-<script src="//cdn.bootcss.com/smooth-scroll/12.1.4/js/smooth-scroll.polyfills.min.js"></script>
-
-
+    
+    
 </head>
-  <body>
-    
-    <div class="suspension">
-      <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
-      
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <h1>
+                        <a id="logo" href="https://myonlyzzy.github.io">
+                            Myonlyzzy Blog
+                        </a>
+                    </h1>
+                
+                <p class="description">专注与golang k8s</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://myonlyzzy.github.io">首页</a>
+                    
+                    <a class="current" href="https://myonlyzzy.github.io/" title="Home">Home</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/about/" title="关于">关于</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/works/" title="工作">工作</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/about/" title="About">About</a>
+                    
+                </nav>
+            </div>
+        </div>
     </div>
-    
-    
-  <header class="site-header">
-  <img class="avatar" src="" alt="Avatar">
-  
-  <h1 class="title">Myonlyzzy Blog</h1>
-  
-  <p class="subtitle"></p>
-  <button class="menu-toggle" type="button">
-    <span class="icon icon-menu"></span>
-  </button>
-  <nav class="site-menu collapsed">
-    <h2 class="offscreen">Main Menu</h2>
-    <ul class="menu-list">
-      
-      
-      
-      
-        <li class="menu-item  is-active"><a href="/">Home</a></li>
-      
-        <li class="menu-item "><a href="https://github.com/myonlyzzy/">Works</a></li>
-      
-        <li class="menu-item "><a href="/about/">About</a></li>
-      
-    </ul>
-  </nav>
-  <nav class="social-menu collapsed">
-    <h2 class="offscreen">Social Networks</h2>
-    <ul class="social-list">
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      <li class="social-item">
-        <a href="/index.xml"><span class="icon icon-rss" title="RSS"></span></a>
-      </li>
-
-    </ul>
-  </nav>
 </header>
 
-  <section class="main post-list">
-    <header class="list-header offscreen">
-      <h2 class="list-label">All Posts</h2>
-    </header>
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/docker-proxy/" title="Docker Proxy" >Docker Proxy</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2017年11月7日
+                            </date>
+                            
+                            <div class="post-content">
+                                配置docker 代理  前段时间由于要使用kubespray 部署一个k8s集群,但是kubespray使用的镜像都是gcr和quay的镜像被gfw屏蔽了,安装时pull不下来镜像.本来打算使用网易镜像中心有个哥们传上去的镜像但是版本很多不对,想了想还是自己搭个代理使用起来方便。
+ 申请一个aws的一年免费服务器 这个不用多说反正申请就好了,当然你得用信用卡,需要信用卡验证。
+配置socks代理 我比较懒也懒得配置sockshadow。直接使用ssh直接在本地启个socks代理。
+ssh -D 127.0.0.0:7000 -i key.pem aws-ecs-ip  使用polipo 将socks代理转http代理 mac下安装 polipo
+brew install polipo  polipo socksParentProxy=localhost:7000 proxyAddress=0.0.0.0  这样就在mac上启动了一个http代理默认的监听端口是8123
+docker配置代理 刚才配置的http代理是在本地mac上,如果你要配置在别的机器上原理一样。
+vi /etc/systemd/system/docker.service.d/http-proxy.conf [Service] Environment=&quot;HTTP_PROXY=http://proxy_ip:8123/&quot;  systemctl daemon-reload systemctl restart docker  配置完后docker就可以使用这个http代理来pull镜像……
+                            </div>
+                            <p class="readmore"><a href="https://myonlyzzy.github.io/post/docker-proxy/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/kingshard/" title="Docker Proxy" >Docker Proxy</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2017年11月7日
+                            </date>
+                            
+                            <div class="post-content">
+                                kingshard 代码  Config struct   type Config struct { Addr string `yaml:&quot;addr&quot;` User string `yaml:&quot;user&quot;` Password string `yaml:&quot;password&quot;` WebAddr string `yaml:&quot;web_addr&quot;` WebUser string `yaml:&quot;web_user&quot;` WebPassword string `yaml:&quot;web_password&quot;` LogPath string `yaml:&quot;log_path&quot;` LogLevel string `yaml:&quot;log_level&quot;` LogSql string `yaml:&quot;log_sql&quot;` SlowLogTime int `yaml:&quot;slow_log_time&quot;` AllowIps string `yaml:&quot;allow_ips&quot;` BlsFile string `yaml:&quot;blacklist_sql_file&quot;` Charset string `yaml:&quot;proxy_charset&quot;` Nodes []NodeConfig `yaml:&quot;nodes&quot;` Schema SchemaConfig `yaml:&quot;schema&quot;` }   type NodeConfig struct { Name string `yaml:&quot;name&quot;` DownAfterNoAlive int `yaml:&quot;down_after_noalive&quot;` MaxConnNum int `yaml:&quot;max_conns_limit&quot;` User string `yaml:&quot;user&quot;` Password string `yaml:&quot;password&quot;` Master string `yaml:&quot;master&quot;` Slave string `yaml:&quot;slave&quot;` }  ​……
+                            </div>
+                            <p class="readmore"><a href="https://myonlyzzy.github.io/post/kingshard/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/golang-net-http/" title="Golang Net Http" >Golang Net Http</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2017年10月25日
+                            </date>
+                            
+                            <div class="post-content">
+                                golang net/http包详解  net/http 包是进行web和网络编程经常用到的一个包。详细了解golang 标准库里的这个包会对提高网路编程技巧有帮助 * TCP编程
+func main() { l, err := net.Listen(&quot;tcp&quot;, &quot;:2000&quot;) if err != nil { log.Fatal(err) } defer l.Close() for { // Wait for a connection. conn, err := l.Accept() if err != nil { log.Fatal(err) } go func(c net.Conn) { // Echo all incoming data. io.Copy(os.Stdout,c) // Shut down the connection. c.Close() }(conn) } }   在上面这段代码里面主要有3点
+ Net.liseten() liseten 返回一个listener interface 的实例……
+                            </div>
+                            <p class="readmore"><a href="https://myonlyzzy.github.io/post/golang-net-http/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/grpc-guides/" title="" ></a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                1年1月1日
+                            </date>
+                            
+                            <div class="post-content">
+                                grpc guides what is gRPC 这个文档介绍了gRPC和protocol buffers.gRPC 可以使用protocol buffers 作为它的IDL(interface define language)也可以用protocol buffers 作为底层的消息交换格式。
+###Overview
+使用gRPC一个客户端应用程序可以像访问一个本地对象一样直接访问一个服务端的方法，这使的我们创建分布式应用和服务更加简单和方便。和很多别的RPC系统的想法一样,gRPC也是通过 定义服务,定义可以被远程访问的方法。在服务端实现了这个接口并且运行了一个gRPC服务来处理客户端的调用。在客户端有一个提供了相同方法的存根。
+gRPC的客户端和服务端可以运行在各种各样的环境中并可以彼此通信。举个例子，你可以使用java创建一个gRPC服务,然后客户端使用go python Ruby 来实现.
+Working with Protocol Buffers gRPC默认使用protocol buffers。protocol buffers 是google的序列化结构数据的成熟开源项目。当然了你也可以使用别的数据格式例如json。下面是一个关于protocol buffers 如何工作的快速介绍
+如果你想使用protocol buffers第一步是使用protocol buffers来定义你想序列化的数据的结构,一般我们会定义在一个后缀名为.proto 的文本文件中。……
+                            </div>
+                            <p class="readmore"><a href="https://myonlyzzy.github.io/post/grpc-guides/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/http2grpc/" title="" ></a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                1年1月1日
+                            </date>
+                            
+                            <div class="post-content">
+                                Http2 http1.0&amp;http1.1  http请求发送接收的过程  ​
+​
+ Http1.0 http1.1 存在的问题
+ http1.1 虽然可以通过keepalive 实现链接复用,但是没有实现请求复用.仍然要通过顺序发送和接收请求 http协议头浪费资源 服务端不能推送数据而提高加载速度   ​
+http2 设计http2 的目的
+ HTTP/2 通过支持完整的请求与响应复用来减少延迟。 通过有效压缩 HTTP 标头字段将协议开销降至最低。 同时增加对请求优先级和服务器推送的支持  请求复用 二进制分帧层  数据流：已建立的连接内的双向字节流，可以承载一条或多条消息。
+消息：与逻辑请求或响应消息对应的完整的一系列帧。
+帧：HTTP/2 通信的最小单位，每个帧都包含帧头，至少也会标识出当前帧所属的数据流。
+  所有通信都在一个 TCP 连接上完成，此连接可以承载任意数量的双向数据流。 每个数据流都有一个唯一的标识符和可选的优先级信息，用于承载双向消息。 每条消息都是一条逻辑 HTTP 消息（例如请求或响应），包含一个或多个帧。 帧是最小的通信单位，承载着特定类型的数据，例如 HTTP 标头、消息负载，等等。 来自不同数据流的帧可以交错发送，然后再根据每个帧头的数据流标识符重新组装。  请求和响应复用  并行交错地发送多个请求，请求之间互不影响 并行交错地发送多个响应，响应之间互不干扰 使用一个连接并行发送多个请求和响应  头部压缩  在http1.x中http数据包的头部都是以文本编码的形式发送,浪费大量网络资源,HTTP/2 使用 HPACK 压缩格式压缩请求和响应标头元数据  HPACK 中有2个索引表 静态索引表和动态索引表,由客户端和服务端共同维护。
+### 静态索引表……
+                            </div>
+                            <p class="readmore"><a href="https://myonlyzzy.github.io/post/http2grpc/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/istio/" title="" ></a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                1年1月1日
+                            </date>
+                            
+                            <div class="post-content">
+                                istio详解 istio简介 istio是2017年google ibm lyft 开源的一个service mesh 组件,主要为k8s提供service comunication。istio现在还没有发布正式的生产环境可用的版本,不过目前在github的提交非常快,按照这个速度2018年肯定可以发布第一个release版本出来。
+istio 安装 istio安装需要k8s 1.7.3 以上版本。
+ 从https://github.com/istio/istio/releases 选择你想安装的版本.我这里是安装的0.3.0版本 下载地址为  https://github.com/istio/istio/releases/download/0.3.0/istio-0.3.0-linux.tar.gz,解压包。
+ 进入到 istio-0.3.0/install/kubernetes 目录.create -f ./istio.yaml 这个目录下有多个安装的yaml文件选择一个。
+ kubectl get all -n istio-system 查看一下svc pod的启动情况,如果有错误,kubectl describe 解决错误。
+  istio 各组件介绍  istio安装好以后可以看到有3个svc istio-ingress ,istio-mixer, istio-pilot 3个服务   Istio deploy. istio-ingress,istio-mixer,istio-pilot,istio-ca  部署应用  部署helloworld  在istio下的sample目录下有几个example可以用来作为部署学习。有一个helloworld 应用,其实就是一个yaml文件。在部署之前我们需要使用istioclt 修改helloworld.yaml istioctl kube-inject -f helloworld.yaml -o helloworld-istio.yaml
+实际上就是个deployment 的container中加入一个sidecar容器。
+可以看到加入了一个proxy_debug 容器。另外还会加入一个ingress,实际上就是向istio-ingress 注册了一个ingress 由它来代理流入到helloworld应用的流量。……
+                            </div>
+                            <p class="readmore"><a href="https://myonlyzzy.github.io/post/istio/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/tidb-tip/" title="" ></a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                1年1月1日
+                            </date>
+                            
+                            <div class="post-content">
+                                判断map中key是否存在  if _,ok := map[key];ok{
+​ //key 存在ok为true 不存为false
+}
+​……
+                            </div>
+                            <p class="readmore"><a href="https://myonlyzzy.github.io/post/tidb-tip/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/golang-sync-pool/" title="golang-sync-Pool" >golang-sync-Pool</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                1年1月1日
+                            </date>
+                            
+                            <div class="post-content">
+                                golang sync/Pool 的使用  最近有个项目开发,由于涉及创建大量的goroutine,所以考虑到要不要使用goroutine池.但一直对goroutine池的必要性存有疑虑,是否需要使用goroutine Pool.但是无意间了解到一个项目fasthttp,据称被net/http快10倍。有人称fasthttp比net/http快10倍的原因是goroutine池的使用,我感觉不是goroutine池而是临时对象池对性能提升比较大。
+ golang 官方对sync/pool 的介绍 官方的原话是这样说的.
+​ 这个池是一系列哪些需要单独保存或者检索的临时对象。任何存储在这个池中的都有可能在不通知的情况下随时删除。临时对象池是协程安全的。设计临时对象池的目的是为了缓存哪些已经分配好内存但现在不使用将来要使用的对象,从而减缓gc时候的压力。所以临时对象池可以用来建立高效的 线程安全的存储池。但是并不是对的所有存储池都适用。
+​ 临时对象池适用于管理哪些在多个包中可能同时重复调用和相互分享的的一组临时对象。临时对象池提供了一种跨多个调用者之上的缓冲分配方式
+​ 一个典型的使用临时对象池的例子是fmt包。fmt包管理了一个动态的临时输出缓冲区。当很多groutine需要调用fmt包打印输出时这个临时输出缓冲区扩大，反之就缩小。
+​ 但是,临时对象池不适合管理段生命周期对象的存储池，因为在这种情况下需要的额外开销会得不偿失。对于这种情况的最有效方式是建立自己的存储池。
+sync/Pool 实例 package main import ( &quot;sync&quot; &quot;time&quot; &quot;fmt&quot; ) type buffer []byte var bp=sync.Pool{ //这里有一点需要注意定义这个函数时候最好返回指针类型,如果你返回指针的话可以直接将这个指针赋值给接 口而不需要重新分配空间 New: func() interface{} { b:=make(buffer,1024) return &amp;b }, } func main() { //test sync.Pool //不使用临时对象池 a:=time.Now().Unix() for i:=0;i&lt;1000000000;i++{ obj:=make([]byte,1024) _=obj } b:=time.Now().Unix() for i:=0;i&lt;1000000000;i++{ obj:=bp.Get().(*buffer) _=obj bp.Put(obj) } c:=time.Now().Unix() fmt.Println(&quot;不使用临时对象池创建1000000000个bufer需要的时间:&quot;,b-a,&quot;s&quot;) fmt.Println(&quot;使用临时对象池创建buffer：&quot;,c-b,&quot;s&quot;) }  在不使用临时对象池时,运行需要的时间比使用了临时对象池多10s钟。……
+                            </div>
+                            <p class="readmore"><a href="https://myonlyzzy.github.io/post/golang-sync-pool/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/k8s-ingress/" title="ks8 ingress" >ks8 ingress</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                1年1月1日
+                            </date>
+                            
+                            <div class="post-content">
+                                k8s ingress k8s中为什么要创造一个ingress这样的resource,什么是ingress controller,怎样通过ingress controller来暴露服务。
+什么是ingress controller 我们知道在k8s集群中如果我们要把集群中的一个service向集群外部来暴露,有几种选择,
+ 通过制定service type为nodeport 暴露在node的一个端口上。 通过制定service type为load balance 从云提供商哪里申请一个公望ip来暴露。  但是我们想想nodeport这种方式感觉太丑陋,load balance太烧钱,有很多服务其实我们只需要一个子域名或者url就好了根本不需要loadbalance。是不是突然想到我们部署一个nginx服务,给nginx一个ip。然后通过nginx代理就好了。实际上ingress controller就是一个nginx。但是有比nginx多了一些东西。啥东西呢？上图。
+我们看到实际上这个nginx容器起了几个进程
+ dumb-init 这个是process监控。 nginx-ingress-controller nginx 进程  为什么要起这么多进程,都是干啥用的？
+ingress 接着上面的nginx思路。为了暴露service 起个nginx,但是如果不断的创建需要expose 的service,难道要不断修改nginx 配置增加upstream？难到不是吗?好像现在使用nginx增加后端的都是要修改的。所以我们把config 写在configmap中每次手动修改，重启容器？太low了。微服务的时代几千上万的服务改死你。这就是ingress这个resource的作用。具体怎么实现呢，记得安装ingress controller需要增加一堆clusterrole吗？这些role干啥用的。实际上就是给nginx-ingress-controller watch list endpoint ，ingress 各种资源用的。nginx-ingress-controller会watch ingress资源。ingess 中我们定义的backend service port什么的会被它动态读到然后增加到nginx的config中。
+所以有nginx-ingress-controller 也有haproxy-ingress-controller 各种controller。……
+                            </div>
+                            <p class="readmore"><a href="https://myonlyzzy.github.io/post/k8s-ingress/">阅读全文</a></p>
+                        </article>
+                    
+
+                    
+
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://myonlyzzy.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
     
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
     
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="https://myonlyzzy.github.io/post/kingshard/" class="post-link">Docker Proxy</a></h3>
-    <p class="post-meta">@ · Nov 7, 2017 · 2 min read</p>
-  </header>
-  
-  <footer class="post-footer">
-    <a class="read-more" href="https://myonlyzzy.github.io/post/kingshard/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="https://myonlyzzy.github.io/post/docker-proxy/" class="post-link">Docker Proxy</a></h3>
-    <p class="post-meta">@ · Nov 7, 2017 · 1 min read</p>
-  </header>
-  
-  <footer class="post-footer">
-    <a class="read-more" href="https://myonlyzzy.github.io/post/docker-proxy/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="https://myonlyzzy.github.io/post/golang-net-http/" class="post-link">Golang Net Http</a></h3>
-    <p class="post-meta">@ · Oct 25, 2017 · 4 min read</p>
-  </header>
-  
-  <footer class="post-footer">
-    <a class="read-more" href="https://myonlyzzy.github.io/post/golang-net-http/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="https://myonlyzzy.github.io/post/k8s-ingress/" class="post-link">ks8 ingress</a></h3>
-    <p class="post-meta">@ · Jan 1, 0001 · 1 min read</p>
-  </header>
-  
-  <footer class="post-footer">
-    <a class="read-more" href="https://myonlyzzy.github.io/post/k8s-ingress/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="https://myonlyzzy.github.io/post/golang-sync-pool/" class="post-link">golang-sync-Pool</a></h3>
-    <p class="post-meta">@ · Jan 1, 0001 · 1 min read</p>
-  </header>
-  
-  <footer class="post-footer">
-    <a class="read-more" href="https://myonlyzzy.github.io/post/golang-sync-pool/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="https://myonlyzzy.github.io/post/tidb-tip/" class="post-link"></a></h3>
-    <p class="post-meta">@ · Jan 1, 0001 · 1 min read</p>
-  </header>
-  
-  <footer class="post-footer">
-    <a class="read-more" href="https://myonlyzzy.github.io/post/tidb-tip/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="https://myonlyzzy.github.io/post/istio/" class="post-link"></a></h3>
-    <p class="post-meta">@ · Jan 1, 0001 · 2 min read</p>
-  </header>
-  
-  <footer class="post-footer">
-    <a class="read-more" href="https://myonlyzzy.github.io/post/istio/">Read More →</a>
-  </footer>
-</article>
-
-      
+    <li>
+        <a href="https://myonlyzzy.github.io/post/docker-proxy/" title="Docker Proxy">Docker Proxy</a>
+    </li>
     
+    <li>
+        <a href="https://myonlyzzy.github.io/post/kingshard/" title="Docker Proxy">Docker Proxy</a>
+    </li>
     
-  </section>
-  <footer class="site-footer">
-  <p>© 2017-2018 Myonlyzzy Blog</p>
-  <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank">Nuo</a>.</p>
-  
+    <li>
+        <a href="https://myonlyzzy.github.io/post/golang-net-http/" title="Golang Net Http">Golang Net Http</a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/grpc-guides/" title=""></a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/http2grpc/" title=""></a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/istio/" title=""></a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/tidb-tip/" title=""></a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/golang-sync-pool/" title="golang-sync-Pool">golang-sync-Pool</a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/k8s-ingress/" title="ks8 ingress">ks8 ingress</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://golang.org/" title="golang官网">golang官网</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://myonlyzzy.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://myonlyzzy.github.io">Myonlyzzy Blog By myonlyzzy</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="http://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
 </footer>
 
 
-
-<script src="/js/bundle.js"></script>
-
-
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
 
 
-  </body>
+
+
+
+
+
+</body>
 </html>

@@ -1,204 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-us">
 <head>
 
-  <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.53" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <title></title>
-
-  
-  
-
-
-
-
-  
-  <meta name="author" content="" />
-  <meta name="description" content="istio详解 istio简介 istio是2017年google ibm lyft 开源的一个service mesh 组件,主要为k8s提供service comunication。istio现在还没有发布正式的生产环境可用的版本,不过目前在github的提交非常快,按照这个速度2018年肯定可以发布第一个release版本出来。
-istio 安装 istio安装需要k8s 1.7.3 以上版本。
- 从https://github.com/istio/istio/releases 选择你想安装的版本.我这里是安装的0.3.0版本 下载地址为  https://github.com/istio/istio/releases/download/0.3.0/istio-0.3.0-linux.tar.gz,解压包。
- 进入到 istio-0.3.0/install/kubernetes 目录.create -f ./istio.yaml 这个目录下有多个安装的yaml文件选择一个。
- kubectl get all -n istio-system 查看一下svc pod的启动情况,如果有错误,kubectl describe 解决错误。
-  istio 各组件介绍  istio安装好以后可以看到有3个svc istio-ingress ,istio-mixer, istio-pilot 3个服务   Istio deploy. istio-ingress,istio-mixer,istio-pilot,istio-ca  部署应用  部署helloworld  在istio下的sample目录下有几个example可以用来作为部署学习。有一个helloworld 应用,其实就是一个yaml文件。在部署之前我们需要使用istioclt 修改helloworld.yaml istioctl kube-inject -f helloworld.yaml -o helloworld-istio.yaml
-实际上就是个deployment 的container中加入一个sidecar容器。
-可以看到加入了一个proxy_debug 容器。另外还会加入一个ingress,实际上就是向istio-ingress 注册了一个ingress 由它来代理流入到helloworld应用的流量。" />
-
-  
-  
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@gohugoio" />
-    <meta name="twitter:title" content="" />
-    <meta name="twitter:description" content="istio详解 istio简介 istio是2017年google ibm lyft 开源的一个service mesh 组件,主要为k8s提供service comunication。istio现在还没有发布正式的生产环境可用的版本,不过目前在github的提交非常快,按照这个速度2018年肯定可以发布第一个release版本出来。
-istio 安装 istio安装需要k8s 1.7.3 以上版本。
- 从https://github.com/istio/istio/releases 选择你想安装的版本.我这里是安装的0.3.0版本 下载地址为  https://github.com/istio/istio/releases/download/0.3.0/istio-0.3.0-linux.tar.gz,解压包。
- 进入到 istio-0.3.0/install/kubernetes 目录.create -f ./istio.yaml 这个目录下有多个安装的yaml文件选择一个。
- kubectl get all -n istio-system 查看一下svc pod的启动情况,如果有错误,kubectl describe 解决错误。
-  istio 各组件介绍  istio安装好以后可以看到有3个svc istio-ingress ,istio-mixer, istio-pilot 3个服务   Istio deploy. istio-ingress,istio-mixer,istio-pilot,istio-ca  部署应用  部署helloworld  在istio下的sample目录下有几个example可以用来作为部署学习。有一个helloworld 应用,其实就是一个yaml文件。在部署之前我们需要使用istioclt 修改helloworld.yaml istioctl kube-inject -f helloworld.yaml -o helloworld-istio.yaml
-实际上就是个deployment 的container中加入一个sidecar容器。
-可以看到加入了一个proxy_debug 容器。另外还会加入一个ingress,实际上就是向istio-ingress 注册了一个ingress 由它来代理流入到helloworld应用的流量。" />
-    <meta name="twitter:image" content="https://myonlyzzy.github.io/img/avatar.jpg" />
-  
-
-
-
-
-<meta name="generator" content="Hugo 0.24.1" />
-
-
-<link rel="canonical" href="https://myonlyzzy.github.io/post/istio/" />
-<link rel="alternative" href="/index.xml" title="Myonlyzzy Blog" type="application/atom+xml" />
-
-
-<meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="format-detection" content="telephone=no,email=no,adress=no" />
-<meta http-equiv="Cache-Control" content="no-transform" />
-
-
-<meta name="robots" content="index,follow" />
-<meta name="referrer" content="origin-when-cross-origin" />
-
-
-
-
-
-
-
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Myonlyzzy Blog" />
-<meta name="msapplication-tooltip" content="Myonlyzzy Blog" />
-<meta name='msapplication-navbutton-color' content="#5fbf5e" />
-<meta name="msapplication-TileColor" content="#5fbf5e" />
-<meta name="msapplication-TileImage" content="/img/tile-image-windows.png" />
-<link rel="icon" href="/img/favicon.ico" />
-<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
-<link rel="icon" sizes="192x192" href="/img/touch-icon-android.png" />
-<link rel="apple-touch-icon" href="/img/touch-icon-apple.png" />
-<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5fbf5e" />
-
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
-
-<link rel="stylesheet" href="/css/bundle.css" />
-
-
-  
-  <!--[if lt IE 9]>
-    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <script src="//cdn.bootcss.com/video.js/6.2.8/ie8/videojs-ie8.min.js"></script>
-  <![endif]-->
-
-<!--[if lte IE 11]>
-    <script src="//cdn.bootcss.com/classlist/1.1.20170427/classList.min.js"></script>
-  <![endif]-->
-
-
-<script src="//cdn.bootcss.com/object-fit-images/3.2.3/ofi.min.js"></script>
-
-
-<script src="//cdn.bootcss.com/smooth-scroll/12.1.4/js/smooth-scroll.polyfills.min.js"></script>
-
-
-</head>
-  <body>
-    
-    <div class="suspension">
-      <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
-      
+    <title> | Myonlyzzy Blog</title>
+    <meta property="og:title" content=" - Myonlyzzy Blog">
+    <meta property="og:type" content="article">
         
-      
+        
+    <meta name="Keywords" content="golang,go语言,kubernetes,容器,docker,k8s">
+    <meta name="description" content="">
+        
+    <meta name="author" content="myonlyzzy">
+    <meta property="og:url" content="https://myonlyzzy.github.io/post/istio/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://myonlyzzy.github.io">
+                        Myonlyzzy Blog
+                    </a>
+                
+                <p class="description">专注与golang k8s</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://myonlyzzy.github.io">首页</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/" title="Home">Home</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/about/" title="关于">关于</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/works/" title="工作">工作</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/about/" title="About">About</a>
+                    
+                </nav>
+            </div>
+        </div>
     </div>
-    
-    
-  <header class="site-header">
-  <img class="avatar" src="" alt="Avatar">
-  
-  <h2 class="title">Myonlyzzy Blog</h2>
-  
-  <p class="subtitle"></p>
-  <button class="menu-toggle" type="button">
-    <span class="icon icon-menu"></span>
-  </button>
-  <nav class="site-menu collapsed">
-    <h2 class="offscreen">Main Menu</h2>
-    <ul class="menu-list">
-      
-      
-      
-      
-        <li class="menu-item  is-active"><a href="/">Home</a></li>
-      
-        <li class="menu-item "><a href="https://github.com/myonlyzzy/">Works</a></li>
-      
-        <li class="menu-item "><a href="/about/">About</a></li>
-      
-    </ul>
-  </nav>
-  <nav class="social-menu collapsed">
-    <h2 class="offscreen">Social Networks</h2>
-    <ul class="social-list">
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      <li class="social-item">
-        <a href="/index.xml"><span class="icon icon-rss" title="RSS"></span></a>
-      </li>
-
-    </ul>
-  </nav>
 </header>
 
-  <section class="main post-detail">
-    <header class="post-header">
-      <h1 class="post-title"></h1>
-      <p class="post-meta">@ · Jan 1, 0001 · 2 min read</p>
-    </header>
-    <article class="post-content">
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title"></h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            1年1月1日
+                        </date>
+                        
+                        
+                        <div class="post-content">
+                            
 
 <h1 id="istio详解">istio详解</h1>
 
@@ -292,53 +176,167 @@ root        501    495  0 09:12 ?        00:00:00 ps -ef
 Hello version: v2, instance: helloworld-v2-1546465910-2vhjx
 * Connection #0 to host 10.1.21.5 left intact
 </code></pre>
-</article>
-    <footer class="post-footer">
-      
-      <p class="post-copyright">
-        This post was published <strong>736717</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
-      </p>
-    </footer>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/docker-proxy/">Docker Proxy</a></li>
+        
+        <li><a href="/post/kingshard/">Docker Proxy</a></li>
+        
+        <li><a href="/post/golang-net-http/">Golang Net Http</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+        <li><a href="/post/golang-sync-pool/">golang-sync-Pool</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
     
-      
+
     
-  </section>
-  <footer class="site-footer">
-  <p>© 2017-2018 Myonlyzzy Blog</p>
-  <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank">Nuo</a>.</p>
-  
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://myonlyzzy.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/docker-proxy/" title="Docker Proxy">Docker Proxy</a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/kingshard/" title="Docker Proxy">Docker Proxy</a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/golang-net-http/" title="Golang Net Http">Golang Net Http</a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/grpc-guides/" title=""></a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/http2grpc/" title=""></a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/istio/" title=""></a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/tidb-tip/" title=""></a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/golang-sync-pool/" title="golang-sync-Pool">golang-sync-Pool</a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/k8s-ingress/" title="ks8 ingress">ks8 ingress</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://golang.org/" title="golang官网">golang官网</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://myonlyzzy.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://myonlyzzy.github.io">Myonlyzzy Blog By myonlyzzy</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="http://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
 </footer>
 
 
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
 
-<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
-<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$','$'], ['\\(','\\)']],
-      displayMath: [['$$','$$'], ['\[','\]']],
-      processEscapes: true,
-      processEnvironments: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-      TeX: { equationNumbers: { autoNumber: "AMS" },
-      extensions: ["AMSmath.js", "AMSsymbols.js"] }
-    }
-  });
-</script>
-<script type="text/x-mathjax-config">
-  // Fix <code> tags after MathJax finishes running. This is a
-  // hack to overcome a shortcoming of Markdown. Discussion at
-  // https://github.com/mojombo/jekyll/issues/199
-  MathJax.Hub.Queue(() => {
-    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
-  });
-</script>
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
-<script src="/js/bundle.js"></script>
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
 
 
 
 
-  </body>
+
+
+</body>
 </html>

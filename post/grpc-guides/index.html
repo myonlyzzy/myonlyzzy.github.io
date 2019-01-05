@@ -16,7 +16,7 @@
     <meta name="description" content="">
         
     <meta name="author" content="myonlyzzy">
-    <meta property="og:url" content="https://myonlyzzy.github.io/post/tidb-tip/">
+    <meta property="og:url" content="https://myonlyzzy.github.io/post/grpc-guides/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -82,17 +82,27 @@
                         
                         
                         <div class="post-content">
-                            <ul>
-<li>判断map中key是否存在</li>
-</ul>
+                            
 
-<p>if _,ok := map[key];ok{</p>
+<h1 id="grpc-guides">grpc guides</h1>
 
-<p>​ //key 存在ok为true 不存为false</p>
+<h2 id="what-is-grpc">what is gRPC</h2>
 
-<p>}</p>
+<p>这个文档介绍了gRPC和protocol buffers.gRPC 可以使用protocol buffers 作为它的IDL(interface define language)也可以用protocol buffers 作为底层的消息交换格式。</p>
 
-<p>​</p>
+<p>###Overview</p>
+
+<p>使用gRPC一个客户端应用程序可以像访问一个本地对象一样直接访问一个服务端的方法，这使的我们创建分布式应用和服务更加简单和方便。和很多别的RPC系统的想法一样,gRPC也是通过 定义服务,定义可以被远程访问的方法。在服务端实现了这个接口并且运行了一个gRPC服务来处理客户端的调用。在客户端有一个提供了相同方法的存根。</p>
+
+<p><img src="/Users/myonlyzzy/Downloads/landing-2.svg" alt="landing-2" /></p>
+
+<p>gRPC的客户端和服务端可以运行在各种各样的环境中并可以彼此通信。举个例子，你可以使用java创建一个gRPC服务,然后客户端使用go python Ruby 来实现.</p>
+
+<h3 id="working-with-protocol-buffers">Working with Protocol Buffers</h3>
+
+<p>gRPC默认使用protocol buffers。protocol buffers 是google的序列化结构数据的成熟开源项目。当然了你也可以使用别的数据格式例如json。下面是一个关于protocol buffers 如何工作的快速介绍</p>
+
+<p>如果你想使用protocol buffers第一步是使用protocol buffers来定义你想序列化的数据的结构,一般我们会定义在一个后缀名为.proto 的文本文件中。</p>
 
                         </div>
 
@@ -102,15 +112,15 @@
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/post/kingshard/">Docker Proxy</a></li>
-        
         <li><a href="/post/docker-proxy/">Docker Proxy</a></li>
+        
+        <li><a href="/post/kingshard/">Docker Proxy</a></li>
         
         <li><a href="/post/golang-net-http/">Golang Net Http</a></li>
         
         <li><a href="/about/">About</a></li>
         
-        <li><a href="/post/istio/"></a></li>
+        <li><a href="/post/http2grpc/"></a></li>
         
     </ul>
 </div>

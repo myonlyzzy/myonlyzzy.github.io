@@ -48,6 +48,38 @@ func main() { l, err := net.Listen(&amp;quot;tcp&amp;quot;, &amp;quot;:2000&amp;
     
     <item>
       <title></title>
+      <link>https://myonlyzzy.github.io/post/grpc-guides/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/grpc-guides/</guid>
+      <description>grpc guides what is gRPC 这个文档介绍了gRPC和protocol buffers.gRPC 可以使用protocol buffers 作为它的IDL(interface define language)也可以用protocol buffers 作为底层的消息交换格式。
+###Overview
+使用gRPC一个客户端应用程序可以像访问一个本地对象一样直接访问一个服务端的方法，这使的我们创建分布式应用和服务更加简单和方便。和很多别的RPC系统的想法一样,gRPC也是通过 定义服务,定义可以被远程访问的方法。在服务端实现了这个接口并且运行了一个gRPC服务来处理客户端的调用。在客户端有一个提供了相同方法的存根。
+gRPC的客户端和服务端可以运行在各种各样的环境中并可以彼此通信。举个例子，你可以使用java创建一个gRPC服务,然后客户端使用go python Ruby 来实现.
+Working with Protocol Buffers gRPC默认使用protocol buffers。protocol buffers 是google的序列化结构数据的成熟开源项目。当然了你也可以使用别的数据格式例如json。下面是一个关于protocol buffers 如何工作的快速介绍
+如果你想使用protocol buffers第一步是使用protocol buffers来定义你想序列化的数据的结构,一般我们会定义在一个后缀名为.proto 的文本文件中。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://myonlyzzy.github.io/post/http2grpc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/http2grpc/</guid>
+      <description>Http2 http1.0&amp;amp;http1.1  http请求发送接收的过程  ​
+​
+ Http1.0 http1.1 存在的问题
+ http1.1 虽然可以通过keepalive 实现链接复用,但是没有实现请求复用.仍然要通过顺序发送和接收请求 http协议头浪费资源 服务端不能推送数据而提高加载速度   ​
+http2 设计http2 的目的
+ HTTP/2 通过支持完整的请求与响应复用来减少延迟。 通过有效压缩 HTTP 标头字段将协议开销降至最低。 同时增加对请求优先级和服务器推送的支持  请求复用 二进制分帧层  数据流：已建立的连接内的双向字节流，可以承载一条或多条消息。
+消息：与逻辑请求或响应消息对应的完整的一系列帧。
+帧：HTTP/2 通信的最小单位，每个帧都包含帧头，至少也会标识出当前帧所属的数据流。
+  所有通信都在一个 TCP 连接上完成，此连接可以承载任意数量的双向数据流。 每个数据流都有一个唯一的标识符和可选的优先级信息，用于承载双向消息。 每条消息都是一条逻辑 HTTP 消息（例如请求或响应），包含一个或多个帧。 帧是最小的通信单位，承载着特定类型的数据，例如 HTTP 标头、消息负载，等等。 来自不同数据流的帧可以交错发送，然后再根据每个帧头的数据流标识符重新组装。  请求和响应复用  并行交错地发送多个请求，请求之间互不影响 并行交错地发送多个响应，响应之间互不干扰 使用一个连接并行发送多个请求和响应  头部压缩  在http1.x中http数据包的头部都是以文本编码的形式发送,浪费大量网络资源,HTTP/2 使用 HPACK 压缩格式压缩请求和响应标头元数据  HPACK 中有2个索引表 静态索引表和动态索引表,由客户端和服务端共同维护。
+### 静态索引表</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://myonlyzzy.github.io/post/istio/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
