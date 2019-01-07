@@ -23,5 +23,15 @@ unsafe.pointer unsafe.pointer 可以表示任意类型的指针.
  i:=10 var f *float64 f:=&amp;amp;i  Cannot use &amp;lsquo;pi&amp;rsquo; (type *int) as type *float64 in assignment 上面这段代码肯定会报错对吧,因为你无法把一个int的指针赋值给float64的指针.</description>
     </item>
     
+    <item>
+      <title>golang sync cond 解读</title>
+      <link>https://myonlyzzy.github.io/post/golang_sync_cond/</link>
+      <pubDate>Tue, 20 Nov 2018 22:14:31 -0800</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/golang_sync_cond/</guid>
+      <description>简介 Cond 条件变量 Cond 实现一个条件变量，即等待或宣布事件发生的 goroutines 的会合点，它会保存一个通知列表。基本思想是当某中状态达成，goroutine 将会等待（Wait）在那里，当某个时刻状态改变时通过通知的方式（Broadcast，Signal）的方式通知等待的 goroutine。这样，不满足条件的 goroutine 唤醒继续向下执行，满足条件的重新进入等待序列.
+exmaple var m sync.Mutex var c = sync.NewCond(&amp;amp;m) var n = 5 func syncCondtest(i int, running chan bool) { c.</description>
+    </item>
+    
   </channel>
 </rss>

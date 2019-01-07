@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>golang unsafe pointer 解读 | myonlyzzy blog</title>
-    <meta property="og:title" content="golang unsafe pointer 解读 - myonlyzzy blog">
+    <title>golang sync cond 解读 | myonlyzzy blog</title>
+    <meta property="og:title" content="golang sync cond 解读 - myonlyzzy blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2018-11-26T22:14:31&#43;08:00">
+    <meta property="article:published_time" content="2018-11-20T22:14:31&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2018-11-26T22:14:31&#43;08:00">
+    <meta property="article:modified_time" content="2018-11-20T22:14:31&#43;08:00">
         
     <meta name="Keywords" content="golang,go语言,go语言笔记,docker,kubernetes,k8s">
-    <meta name="description" content="golang unsafe pointer 解读">
+    <meta name="description" content="golang sync cond 解读">
         
     <meta name="author" content="myonlyzzy">
-    <meta property="og:url" content="https://myonlyzzy.github.io/post/golang_unsafe_pointer/">
+    <meta property="og:url" content="https://myonlyzzy.github.io/post/golang_sync_cond/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -72,10 +72,10 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">golang unsafe pointer 解读</h1>
+                            <h1 class="post-title">golang sync cond 解读</h1>
                         </header>
                         <date class="post-meta meta-date">
-                            2018年11月26日
+                            2018年11月20日
                         </date>
                         
                         <div class="post-meta">
@@ -91,98 +91,90 @@
 
 <h2 id="简介">简介</h2>
 
-<p>unsafe.pointer和uintptr是golang里面对指针操作两个非常重要的对象。那么unsafe.pinter 和uintptr到底有什么用的呢.</p>
-
-<h3 id="unsafe-pointer">unsafe.pointer</h3>
-
-<p>unsafe.pointer 可以表示任意类型的指针.</p>
-
-<pre><code> i:=10
- var f *float64
- f:=&amp;i
-</code></pre>
-
-<p>Cannot use &lsquo;pi&rsquo; (type *int) as type *float64 in assignment
- 上面这段代码肯定会报错对吧,因为你无法把一个int的指针赋值给float64的指针.</p>
-
-<pre><code>i := 10
-pi := &amp;i
-var fi *float64
-fi=(*float64)(unsafe.Pointer(pi))
-</code></pre>
-
-<p>但上面这样写就OK了，显而易见unsafe.pointer是用来作为不同类型指针的转换的.简单来讲,任意类型的指针都可以转换为unsafe.pointer,unsafe.pointer可以转换为任意类型的指针。</p>
-
-<h3 id="uintptr">uintptr</h3>
-
-<pre><code>type User struct {
-	name string
-	age  int
-}
-ui := new(User)
-si := (*string)(unsafe.Pointer(ui))
-*si = &quot;john&quot;
-</code></pre>
-
-<p>上面这段代码是没有问题,但是如果我们要想获取age的指针地址怎么办,对我们可以通过offsetof进行计算.unsefe.offsetof提供了计算偏移量的方法.但是unsafe.offsetof换回的是一个uintptr类型,所以我们要进行指针的计算需要将unsafe.pointer转化为uintptr.</p>
-
-<pre><code>ui := new(User)
-si := (*string)(unsafe.Pointer(ui))
-*si = &quot;john&quot;
-fmt.Printf(&quot;user:%v\nui:%p\nsi:%p\n&quot;, *ui,ui,si)
-ai:=(*int\(unsafe.Pointer(uintptr(unsafe.Pointer(ui))+unsafe.Offsetof(ui.age)))
-*ai=20
-fmt.Printf(&quot;user:%v\nui:%p\nsi:%p\n&quot;, *ui,ui,si)
-
-</code></pre>
-
-<p>上面这段代码通过将unsafe.pointer 转化为uintptr,然后进行指针的计算,然后在转化成unsafe.pointer进行赋值.
-实际上uintptr和unsafe.pointer 之间可以相互转换。</p>
+<p>Cond 条件变量
+Cond 实现一个条件变量，即等待或宣布事件发生的 goroutines 的会合点，它会保存一个通知列表。基本思想是当某中状态达成，goroutine 将会等待（Wait）在那里，当某个时刻状态改变时通过通知的方式（Broadcast，Signal）的方式通知等待的 goroutine。这样，不满足条件的 goroutine 唤醒继续向下执行，满足条件的重新进入等待序列.</p>
 
 <h2 id="exmaple">exmaple</h2>
 
-<p>一个完整的小例子</p>
+<pre><code>var m sync.Mutex
+var c = sync.NewCond(&amp;m)
+var n = 5
 
-<pre><code>type User struct {
-	name string
-	age  int
-}
-func main() {
-	//startTestEtcd()
-	testUnsafePointer()
-
-}
-func testUnsafePointer() {
-	i := 10
-	pi := &amp;i
-	//fi := (*float64)(unsafe.Pointer(pi))
-	var fi *float64
-	fi=(*float64)(unsafe.Pointer(pi))
-	fmt.Printf(&quot;fi:%p,pi:%p\n&quot;, pi, fi)
-	ui := new(User)
-	si := (*string)(unsafe.Pointer(ui))
-	*si = &quot;john&quot;
-	fmt.Printf(&quot;user:%v\nui:%p\nsi:%p\n&quot;, *ui,ui,si)
-	ai:=(*int)(unsafe.Pointer(uintptr(unsafe.Pointer(ui))+unsafe.Offsetof(ui.age)))
-	*ai=20
-	fmt.Printf(&quot;user:%v\nui:%p\nsi:%p\n&quot;, *ui,ui,si)
+func syncCondtest(i int, running chan bool) {
+	c.L.Lock()
+	fmt.Printf(&quot;goroutine:%d wait\n&quot;, i)
+	running &lt;- true
+	//wait 不会返回直到通过调用c.Signal(）或者c.Broadcast.
+	c.Wait()
+	c.L.Unlock()
+	fmt.Printf(&quot;goroutine:%d quit \n&quot;, i)
 }
 
+func StartGoroutine() {
+	running := make(chan bool, 5)
+	for i := 0; i &lt; n; i++ {
+		go syncCondtest(i, running)
+	}
+
+	//wait all goroutine running if no goroutine running c.Signal do nothing
+	for i := 0; i &lt; n; i++ {
+		&lt;-running
+	}
+	fmt.Println(&quot;all goroutine runnning\n&quot;)
+	c.Signal()
+	c.Broadcast()
+
+}
 </code></pre>
 
-<h2 id="总结">总结</h2>
+<p>以上代码会返回</p>
 
-<ul>
-<li><p>任何指针都可以转换为unsafe.Pointer</p></li>
+<pre><code>goroutine:4 wait
+goroutine:0 wait
+goroutine:1 wait
+goroutine:2 wait
+goroutine:3 wait
+all goroutine runnning
 
-<li><p>unsafe.Pointer可以转换为任何指针</p></li>
+goroutine:3 quit 
+goroutine:4 quit 
+goroutine:0 quit 
+goroutine:1 quit 
+goroutine:2 quit 
+</code></pre>
 
-<li><p>uintptr可以转换为unsafe.Pointer</p></li>
+<p>仔细一下是不是感觉不对,好像是5个goroutine 同时获得了锁.按照代码应该是goroutine:4 wait go goroutine:4 quit&hellip;。其实问题出在wait方法里面.</p>
 
-<li><p>unsafe.Pointer可以转换为uintptr</p></li>
-</ul>
+<pre><code>func (c *Cond) Wait() {
+	c.checker.check()
+	t := runtime_notifyListAdd(&amp;c.notify)
+	c.L.Unlock()
+	runtime_notifyListWait(&amp;c.notify, t)
+	c.L.Lock()
+}
+</code></pre>
 
-<p>unsafe是不安全的，所以我们应该尽可能少的使用它，比如内存的操纵，这是绕过Go本身设计的安全机制的，不当的操作，可能会破坏一块内存，而且这种问题非常不好定位。</p>
+<p>在wait方法里面会先unlock,所以wait方法执行后别的goroutine就可以获得锁了.但是wait方法的倒数第二句会导致wait方法block直到signal方法或者broadcast方法被调用.</p>
+
+<h3 id="典型用法">典型用法</h3>
+
+<p>其实刚才上面的例子只是为了说明cond的wait方法.cond
+的更通用的用法应该是</p>
+
+<pre><code>for !condition{
+		c.Wait()
+}
+</code></pre>
+
+<p>可能你会说,那我这样写不也可以吗</p>
+
+<pre><code>for !condition{
+    continue
+    //time.sleep(time.second*3)
+{
+</code></pre>
+
+<p>但是你这样实际上cpu还是被当前的goroutine占据执行.但是wait会暂停当前的goroutine直到条件满足时发送一个signal或者broadcast给它。</p>
 
                         </div>
 
@@ -191,10 +183,6 @@ func testUnsafePointer() {
 <div class="post-archive">
     <h2>See Also</h2>
     <ul class="listing">
-        
-        <li><a href="/post/golang_sync_cond/">golang sync cond 解读</a></li>
-        
-        <li><a href="/about/">About</a></li>
         
         <li><a href="/archives/">归档</a></li>
         

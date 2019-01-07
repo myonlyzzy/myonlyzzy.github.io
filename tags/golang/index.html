@@ -100,6 +100,30 @@ unsafe.pointer unsafe.pointer 可以表示任意类型的指针.
                             </div>
                         </article>
                     
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://myonlyzzy.github.io/post/golang_sync_cond/">golang sync cond 解读</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2018年11月20日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B">编程</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                简介 Cond 条件变量 Cond 实现一个条件变量，即等待或宣布事件发生的 goroutines 的会合点，它会保存一个通知列表。基本思想是当某中状态达成，goroutine 将会等待（Wait）在那里，当某个时刻状态改变时通过通知的方式（Broadcast，Signal）的方式通知等待的 goroutine。这样，不满足条件的 goroutine 唤醒继续向下执行，满足条件的重新进入等待序列.
+exmaple var m sync.Mutex var c = sync.NewCond(&amp;m) var n = 5 func syncCondtest(i int, running chan bool) { c.……
+                                <p class="readmore"><a href="https://myonlyzzy.github.io/post/golang_sync_cond/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
 
                     
 
@@ -127,6 +151,10 @@ unsafe.pointer unsafe.pointer 可以表示任意类型的指针.
         <a href="https://myonlyzzy.github.io/post/golang_unsafe_pointer/" title="golang unsafe pointer 解读">golang unsafe pointer 解读</a>
     </li>
     
+    <li>
+        <a href="https://myonlyzzy.github.io/post/golang_sync_cond/" title="golang sync cond 解读">golang sync cond 解读</a>
+    </li>
+    
 </ul>
     </section>
 
@@ -137,7 +165,7 @@ unsafe.pointer unsafe.pointer 可以表示任意类型的指针.
 <ul class="widget-list">
     
     <li>
-        <a href="https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B/">编程(1)</a>
+        <a href="https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B/">编程(2)</a>
     </li>
     
 </ul>
