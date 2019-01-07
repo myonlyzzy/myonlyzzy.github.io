@@ -3,43 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://myonlyzzy.github.io/post/golang-unsafepointer/</loc>
-    <lastmod>2018-10-07T14:56:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/post/http2grpc/</loc>
-    <lastmod>2017-12-07T14:56:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/post/docker-proxy/</loc>
-    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/post/istio/</loc>
-    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/post/kingshard/</loc>
-    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/post/golang-net-http/</loc>
-    <lastmod>2017-10-25T14:26:52+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/post/golang-sync-pool/</loc>
-    <lastmod>2017-09-07T14:56:29+08:00</lastmod>
+    <loc>https://myonlyzzy.github.io/post/golang_unsafe_pointer/</loc>
+    <lastmod>2018-11-26T22:14:31-08:00</lastmod>
   </url>
   
   <url>
     <loc>https://myonlyzzy.github.io/about/</loc>
-    <lastmod>2017-07-07T14:56:29+08:00</lastmod>
+    <lastmod>2018-11-26T22:14:31-05:00</lastmod>
   </url>
   
   <url>
@@ -48,68 +18,26 @@
   </url>
   
   <url>
-    <loc>https://myonlyzzy.github.io/tags/docker/</loc>
-    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/categories/golang/</loc>
-    <lastmod>2018-10-07T14:56:29+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://myonlyzzy.github.io/tags/golang/</loc>
-    <lastmod>2018-10-07T14:56:29+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/tags/http/</loc>
-    <lastmod>2017-12-07T14:56:29+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/tags/k8s/</loc>
-    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/</loc>
-    <lastmod>2018-10-07T14:56:29+08:00</lastmod>
+    <lastmod>2018-11-26T22:14:31-08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://myonlyzzy.github.io/post/</loc>
-    <lastmod>2018-10-07T14:56:29+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/tags/servicemesh/</loc>
-    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
+    <lastmod>2018-11-26T22:14:31-08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://myonlyzzy.github.io/tags/</loc>
-    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
+    <lastmod>2018-11-26T22:14:31-08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://myonlyzzy.github.io/categories/work/</loc>
-    <lastmod>2017-12-07T14:56:29+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://myonlyzzy.github.io/categories/works/</loc>
-    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
+    <loc>https://myonlyzzy.github.io/</loc>
+    <lastmod>2018-11-26T22:14:31-08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -119,7 +47,7 @@
   
   <url>
     <loc>https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2017-11-07T14:56:29+08:00</lastmod>
+    <lastmod>2018-11-26T22:14:31-08:00</lastmod>
     <priority>0</priority>
   </url>
   

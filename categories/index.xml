@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on myonlyzzy blog</title>
+    <link>https://myonlyzzy.github.io/categories/</link>
+    <description>Recent content in Categories on myonlyzzy blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>myonlyzzy- All rights reserved</copyright>
+    
+	<atom:link href="https://myonlyzzy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>编程</title>
+      <link>https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B/</link>
+      <pubDate>Mon, 26 Nov 2018 22:14:31 -0800</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
