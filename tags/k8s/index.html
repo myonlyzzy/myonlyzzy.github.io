@@ -7,22 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Golang | myonlyzzy blog</title>
-    <meta property="og:title" content="Golang - myonlyzzy blog">
+    <title>K8s | myonlyzzy blog</title>
+    <meta property="og:title" content="K8s - myonlyzzy blog">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="golang,go语言,go语言笔记,docker,kubernetes,k8s">
-    <meta name="description" content="Golang">
+    <meta name="description" content="K8s">
         
     <meta name="author" content="myonlyzzy">
-    <meta property="og:url" content="https://myonlyzzy.github.io/tags/golang/">
+    <meta property="og:url" content="https://myonlyzzy.github.io/tags/k8s/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
     
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="alternate" type="application/rss+xml+xml" href="https://myonlyzzy.github.io/tags/golang/index.xml" title="myonlyzzy blog" />
+    <link rel="alternate" type="application/rss+xml+xml" href="https://myonlyzzy.github.io/tags/k8s/index.xml" title="myonlyzzy blog" />
     <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
     
@@ -69,7 +69,7 @@
                     
                     <h3 class="archive-title">
                         包含标签
-                        <span class="keyword">golang</span>
+                        <span class="keyword">k8s</span>
                         的文章
                     </h3>
                     
@@ -97,55 +97,6 @@
 workqueue workqueque 定义在k8s.io/client-go/util/workqueue下.在它的doc.go 中关于这个包有如下的说明
 // Package workqueue provides a simple queue that supports the following // features: // * Fair: items processed in the order in which they are added.……
                                 <p class="readmore"><a href="https://myonlyzzy.github.io/post/k8s_workqueue/">阅读全文</a></p>
-                            </div>
-                        </article>
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="https://myonlyzzy.github.io/post/golang_unsafe_pointer/">golang unsafe pointer 解读</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2018年11月26日
-                            </date>
-                            
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B">编程</a>
-                                
-                            </div>
-                            
-                            <div class="post-content">
-                                简介 unsafe.pointer和uintptr是golang里面对指针操作两个非常重要的对象。那么unsafe.pinter 和uintptr到底有什么用的呢.
-unsafe.pointer unsafe.pointer 可以表示任意类型的指针.
- i:=10 var f *float64 f:=&amp;i  Cannot use &lsquo;pi&rsquo; (type *int) as type *float64 in assignment 上面这段代码肯定会报错对吧,因为你无法把一个int的指针赋值给float64的指针.……
-                                <p class="readmore"><a href="https://myonlyzzy.github.io/post/golang_unsafe_pointer/">阅读全文</a></p>
-                            </div>
-                        </article>
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="https://myonlyzzy.github.io/post/golang_sync_cond/">golang sync cond 解读</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2018年11月20日
-                            </date>
-                            
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B">编程</a>
-                                
-                            </div>
-                            
-                            <div class="post-content">
-                                简介 Cond 条件变量 Cond 实现一个条件变量，即等待或宣布事件发生的 goroutines 的会合点，它会保存一个通知列表。基本思想是当某中状态达成，goroutine 将会等待（Wait）在那里，当某个时刻状态改变时通过通知的方式（Broadcast，Signal）的方式通知等待的 goroutine。这样，不满足条件的 goroutine 唤醒继续向下执行，满足条件的重新进入等待序列.
-exmaple var m sync.Mutex var c = sync.NewCond(&amp;m) var n = 5 func syncCondtest(i int, running chan bool) { c.……
-                                <p class="readmore"><a href="https://myonlyzzy.github.io/post/golang_sync_cond/">阅读全文</a></p>
                             </div>
                         </article>
                     

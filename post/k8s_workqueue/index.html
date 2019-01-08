@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.53" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>k8s workqueue 解读 | myonlyzzy blog</title>
+    <meta property="og:title" content="k8s workqueue 解读 - myonlyzzy blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-01-04T22:14:31&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-01-04T22:14:31&#43;08:00">
+        
+    <meta name="Keywords" content="golang,go语言,go语言笔记,docker,kubernetes,k8s">
+    <meta name="description" content="k8s workqueue 解读">
+        
+    <meta name="author" content="myonlyzzy">
+    <meta property="og:url" content="https://myonlyzzy.github.io/post/k8s_workqueue/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://myonlyzzy.github.io">
+                        myonlyzzy blog
+                    </a>
+                
+                <p class="description">专注于docker、Go语言(golang)、kubernetes、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://myonlyzzy.github.io">首页</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://myonlyzzy.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">k8s workqueue 解读</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年1月4日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B">编程</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<p>最近在看k8s的代码.发现不管时kube-controller-manager还是kube-scheduler 中对client-go中的workqueque和informer的使用时频率最高的一部分.于是就花了点时间粗略的研究了一下k8s中的workqueue。</p>
+
+<h2 id="workqueue">workqueue</h2>
+
+<p>workqueque 定义在<a href="https://github.com/kubernetes/client-go/tree/master/util/workqueue">k8s.io/client-go/util/workqueue</a>下.在它的doc.go 中关于这个包有如下的说明</p>
+
+<pre><code>// Package workqueue provides a simple queue that supports the following
+// features:
+//  * Fair: items processed in the order in which they are added.
+//  * Stingy: a single item will not be processed multiple times concurrently,
+//      and if an item is added multiple times before it can be processed, it
+//      will only be processed once.
+//  * Multiple consumers and producers. In particular, it is allowed for an
+//      item to be reenqueued while it is being processed.
+//  * Shutdown notifications.
+package workqueue
+</code></pre>
+
+<p>workqueque 提供一下特性</p>
+
+<ol>
+<li>Fair 公平,工作队列提供工作会按照先到先处理的方式进行处理</li>
+<li>Stingy 一个工作不会被多次并行处理,而且即使一个工作被多次加入，也只会被处理一次.</li>
+<li>多个消费者和生产者, 而且允许工作正在处理时重新加入队列</li>
+<li>关闭通知.</li>
+</ol>
+
+<h3 id="type">Type</h3>
+
+<pre><code>type Type struct {
+	// queue defines the order in which we will work on items. Every
+	// element of queue should be in the dirty set and not in the
+	// processing set.
+	queue []t
+
+	// dirty defines all of the items that need to be processed.
+	dirty set
+
+	// Things that are currently being processed are in the processing set.
+	// These things may be simultaneously in the dirty set. When we finish
+	// processing something and remove it from this set, we'll check if
+	// it's in the dirty set, and if so, add it to the queue.
+	processing set
+
+	cond *sync.Cond
+
+	shuttingDown bool
+
+	metrics queueMetrics
+
+	unfinishedWorkUpdatePeriod time.Duration
+	clock                      clock.Clock
+}
+</code></pre>
+
+<p>Type结构有queue、dirty、processing、3个主要的数据结构.</p>
+
+<h4 id="queue">queue</h4>
+
+<p>定义了按顺序需要被处理的item,它是一个slice是有顺序的.按照每次取都是取第0号元素.</p>
+
+<h4 id="dirty">dirty</h4>
+
+<p>dirty 是一个map,定义了所有需要被处理的item.但是dirty因为是map所以是无序的.</p>
+
+<h3 id="processing">processing</h3>
+
+<p>processing 也是一个map,表示当前正在被处理的item.</p>
+
+<p>有可能同一个item在dirty中也在processing中,因为item是从queue中被拿出来,然后交给processing.完成处理之后item会被从processing中删除掉,但是如果dirty中还有这个itme,item会被继续加入到queue中。</p>
+
+<h3 id="get">GET</h3>
+
+<pre><code>func (q *Type) Get() (item interface{}, shutdown bool) {
+	q.cond.L.Lock()
+	defer q.cond.L.Unlock()
+	for len(q.queue) == 0 &amp;&amp; !q.shuttingDown {
+		q.cond.Wait()
+	}
+	if len(q.queue) == 0 {
+		// We must be shutting down.
+		return nil, true
+	}
+
+	item, q.queue = q.queue[0], q.queue[1:]
+
+	q.metrics.get(item)
+
+	q.processing.insert(item)
+	q.dirty.delete(item)
+
+	return item, false
+}
+</code></pre>
+
+<p>Get方法的逻辑还是比较简单,queue里面组合了一个条件变量,如果queue=0且queue没有被关闭就等待往queue中添加item.然后把index为0的元素取出返回,并删除queque中的这个元素同时删除dirty中这个元素.同时往processing中加入这个元素.</p>
+
+<h3 id="add">ADD</h3>
+
+<pre><code>func (q *Type) Add(item interface{}) {
+    // cond 加锁
+    q.cond.L.Lock()
+    defer q.cond.L.Unlock()
+    if q.shuttingDown {
+        return
+    }
+    // 如果在 dirty set 中，那么该 item 被忽略
+    if q.dirty.has(item) {
+        return
+    }
+    q.metrics.add(item)
+    // dirty set 标记
+    q.dirty.insert(item)
+    // 如果当前 item 仍然在处理中，则被忽略
+    if q.processing.has(item) {
+        return
+    }
+    // 加入 queue
+    q.queue = append(q.queue, item)
+    // 通知 cond lock 的协程
+    q.cond.Signal()
+}
+</code></pre>
+
+<p>Add 方法在dirty中没有item时把item先加入到dirty中,如果
+这个时候item正在被处理,就直接返回，不加入到queue中，如果
+没有正在被处理item同时会被加入到queue中，这里可能有人返回问,不加入queque中不就意味着这个item不会被处理吗，因为get是从queue中获取的啊.这个问题我们后面再统一解释.</p>
+
+<h3 id="done方法">Done方法</h3>
+
+<pre><code>func (q *Type) Done(item interface{}) {
+	q.cond.L.Lock()
+	defer q.cond.L.Unlock()
+
+	q.metrics.done(item)
+
+	q.processing.delete(item)
+	if q.dirty.has(item) {
+		q.queue = append(q.queue, item)
+		q.cond.Signal()
+	}
+}
+</code></pre>
+
+<p>Done 方法是当处理完一个item之后,调用done方法item会从processing中删除,同时如果dirty中有这个item的话会让这个item加入到queue中,这就解释了我们在刚才的Add方法中提出的问题,如果来了一个item，但这时候有一个同样的item在processing中,不加入queue直加入dirty中的疑问。就是说处理完一个item之后,如果这个时候dirty中有一个同样的item,会把它再加入到queque中.</p>
+
+<h3 id="shutdown-方法">ShutDown 方法</h3>
+
+<pre><code>func (q *Type) ShutDown() {
+	q.cond.L.Lock()
+	defer q.cond.L.Unlock()
+	q.shuttingDown = true
+	q.cond.Broadcast()
+}
+</code></pre>
+
+<p>发送一个广播事件，让所有因为Get中的wait继续执行。</p>
+
+<h3 id="ratelimitingqueue">RateLimitingQueue</h3>
+
+<pre><code>//限速队列
+type RateLimitingInterface interface{
+    DelayingInterface
+    AddRateLimited(item interface{})
+    Forget(item interface{})
+    NumRequeues (item interface{})int
+}
+//延时队列
+type DelayingInterface interface {
+	Interface
+	AddAfter(item interface{}, duration time.Duration)
+}
+
+</code></pre>
+
+<p>在queue的基础上,workqueue还实现了一个RateLimitingQueue.即限速队列.我们看到限速队列.
+RateLimitingInterface 组合了DelayingInterface(延时队列接口）,DelayingInterface组合了Interface接口.Interface接口就是我们一个type实现的接口。包含了队列的基本操作函数.DelayingInterface 只有一个接口函数,AddAfter,顾名思义延迟添加item。</p>
+
+<h4 id="newnamedratelimitingqueue">NewNamedRateLimitingQueue</h4>
+
+<pre><code>func NewNamedRateLimitingQueue(rateLimiter RateLimiter, name string) RateLimitingInterface {
+	return &amp;rateLimitingType{
+		DelayingInterface: NewNamedDelayingQueue(name),
+		rateLimiter:       rateLimiter,
+	}
+}
+</code></pre>
+
+<p>RateLimitingQueue的默认构造方法,返回一个rateLimitingType结构的实例.</p>
+
+<h4 id="ratelimitingtype">rateLimitingType</h4>
+
+<pre><code>type rateLimitingType struct {
+	DelayingInterface
+
+	rateLimiter RateLimiter
+}
+
+func (q *rateLimitingType) AddRateLimited(item interface{}) {
+	q.DelayingInterface.AddAfter(item, q.rateLimiter.When(item))
+}
+
+func (q *rateLimitingType) NumRequeues(item interface{}) int {
+	return q.rateLimiter.NumRequeues(item)
+}
+
+func (q *rateLimitingType) Forget(item interface{}) {
+	q.rateLimiter.Forget(item)
+}
+</code></pre>
+
+<p>rateLimitingType结构组合了DelayingInterface结口和和一个限速器RateLimiter  ,rateLimitingType结构实现了RateLimitingQueue接口.上面就是RateLimitingQueue的3个接口方法的具体实现,AddRateLimited方法就是调用延时队列接口的AddAfter方法,在延时一个时间间隔后将item加入对列.这个延时时间是由rateLimiter的when方法返回的.</p>
+
+<h4 id="ratelimiter-接口">RateLimiter 接口</h4>
+
+<pre><code>type RateLimiter interface {
+	//返回一个时间段,这个时间段之后item才会被加入队列中
+    When(item interface{}) time.Duration
+    //forget表明一个item已经完成了retry.清楚它的retry    数据
+	Forget(item interface{})
+	//返回这个item已经失败的次数
+    NumRequeues(item interface{}) int
+}
+
+</code></pre>
+
+<h5 id="itemexponentialfailureratelimiter">ItemExponentialFailureRateLimiter</h5>
+
+<p>ItemExponentialFailureRateLimiter是比较常用的限速器，他会根据元素错误次数逐渐累加等待时间.</p>
+
+<pre><code>type ItemExponentialFailureRateLimiter struct {
+	failuresLock sync.Mutex
+	failures     map[interface{}]int
+
+	baseDelay time.Duration
+	maxDelay  time.Duration
+}
+func NewItemExponentialFailureRateLimiter(baseDelay time.Duration, maxDelay time.Duration) RateLimiter {
+	return &amp;ItemExponentialFailureRateLimiter{
+		failures:  map[interface{}]int{},
+		baseDelay: baseDelay,
+		maxDelay:  maxDelay,
+	}
+}
+
+func (r *ItemExponentialFailureRateLimiter) When(item interface{}) time.Duration {
+	r.failuresLock.Lock()
+	defer r.failuresLock.Unlock()
+
+	exp := r.failures[item]
+	r.failures[item] = r.failures[item] + 1
+
+	// The backoff is capped such that 'calculated' value never overflows.
+	backoff := float64(r.baseDelay.Nanoseconds()) * math.Pow(2, float64(exp))
+	if backoff &gt; math.MaxInt64 {
+		return r.maxDelay
+	}
+
+	calculated := time.Duration(backoff)
+	if calculated &gt; r.maxDelay {
+		return r.maxDelay
+	}
+
+	return calculated
+}
+
+func (r *ItemExponentialFailureRateLimiter) NumRequeues(item interface{}) int {
+	r.failuresLock.Lock()
+	defer r.failuresLock.Unlock()
+
+	return r.failures[item]
+}
+
+func (r *ItemExponentialFailureRateLimiter) Forget(item interface{}) {
+	r.failuresLock.Lock()
+	defer r.failuresLock.Unlock()
+
+	delete(r.failures, item)
+}
+</code></pre>
+
+<h5 id="bucketratelimiter">BucketRateLimiter</h5>
+
+<p>BucketRateLimiter是利用golang.org.x.time.rate.Limiter实现固定速率(qps)的限速器</p>
+
+<h5 id="itemfastslowratelimiter">ItemFastSlowRateLimiter</h5>
+
+<p>ItemFastSlowRateLimiter和ItemExponentialFailureRateLimiter很像，都是用于错误尝试的，但是ItemFastSlowRateLimiter的限速策略是尝试次数超过阈值用长延迟，否则用短延迟</p>
+
+<h5 id="maxofratelimiter">MaxOfRateLimiter</h5>
+
+<p>MaxOfRateLimiter是一个非常有意思的限速器，他内部有多个限速器，每次返回最悲观的。何所谓最悲观的，比如内部有三个限速器，When()接口返回的就是三个限速器里面延迟最大的</p>
+
+<h2 id="总结">总结</h2>
+
+<p>上面粗略的分析了一下k8s workqueque的实现.这也是典型的golang的代码分格.
+* 接口组合 对于一个事物我们先抽象成多个足够小的接口,再把这些接口进行组合.比如限速队列,先定义一个队列接口,限速就得延迟加入队列吧.所以再定义一个延时队列接口,延时队列接口相对于嘴基本的队列接口,当然就多一个AddAfter的接口方法,然后限速队列接口再组合延时队列接口.那么限速队列相对于延时多一些什么接口呢.AddRateLimited,增加这个接口是为了看起来比较统一,当然你也可以直接调用延时对列的AddAfter.Forget,NumRequeue.</p>
+
+<ul>
+<li>默认构造函数.如果读过一些开源的golang代码,我们发现一般一个包我们都会提供一些默认的构造函数.例如RateLimitingqueue提供了NewNamedRateLimitingQueue和NewRateLimitingQueue.一个基于名字,一个是以空字符串.</li>
+</ul>
+
+<p><strong>参考</strong>
+<a href="https://blog.zhesih.com/2018/09/16/client-go-queue/">client-go-queue</a>
+<a href="https://blog.csdn.net/weixin_42663840/article/details/81482553">深入浅出kubernetes之client-go的workqueue</a></p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/golang_unsafe_pointer/">golang unsafe pointer 解读</a></li>
+        
+        <li><a href="/post/golang_sync_cond/">golang sync cond 解读</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+        <li><a href="/archives/">归档</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="https://myonlyzzy.github.io/tags/golang">golang</a></li>
+                                
+                                <li><a href="https://myonlyzzy.github.io/tags/k8s">k8s</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://myonlyzzy.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/k8s_workqueue/" title="k8s workqueue 解读">k8s workqueue 解读</a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/golang_unsafe_pointer/" title="golang unsafe pointer 解读">golang unsafe pointer 解读</a>
+    </li>
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/post/golang_sync_cond/" title="golang sync cond 解读">golang sync cond 解读</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://myonlyzzy.github.io/categories/%E7%BC%96%E7%A8%8B/">编程(3)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://myonlyzzy.github.io/tags/golang/">golang</a>
+    
+    <a href="https://myonlyzzy.github.io/tags/k8s/">k8s</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://kubernetes.io/" title="kubernetes">kubernetes</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://golang.org/" title="golang">golang</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://myonlyzzy.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://myonlyzzy.github.io">myonlyzzy blog By myonlyzzy</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="http://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>
