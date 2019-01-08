@@ -33,5 +33,16 @@ unsafe.pointer unsafe.pointer 可以表示任意类型的指针.
 exmaple var m sync.Mutex var c = sync.NewCond(&amp;amp;m) var n = 5 func syncCondtest(i int, running chan bool) { c.</description>
     </item>
     
+    <item>
+      <title>k8s workqueue 解读</title>
+      <link>https://myonlyzzy.github.io/post/k8s_workqueue/</link>
+      <pubDate>Tue, 20 Nov 2018 22:14:31 -0800</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/k8s_workqueue/</guid>
+      <description>最近在看k8s的代码.发现不管时kube-controller-manager还是kube-scheduler 中对client-go中的workqueque和informer的使用时频率最高的一部分.于是就花了点时间粗略的研究了一下k8s中的workqueue。
+workqueue workqueque 定义在k8s.io/client-go/util/workqueue下.在它的doc.go 中关于这个包有如下的说明
+// Package workqueue provides a simple queue that supports the following // features: // * Fair: items processed in the order in which they are added.</description>
+    </item>
+    
   </channel>
 </rss>
