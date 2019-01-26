@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>myonlyzzy- All rights reserved</copyright>
-    <lastBuildDate>Fri, 04 Jan 2019 22:14:31 -0800</lastBuildDate>
+    <lastBuildDate>Sat, 26 Jan 2019 15:20:27 +0800</lastBuildDate>
     
 	<atom:link href="https://myonlyzzy.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux系统中进程的内存分配管理</title>
+      <link>https://myonlyzzy.github.io/post/linux_process_memory/</link>
+      <pubDate>Sat, 26 Jan 2019 15:20:27 +0800</pubDate>
+      
+      <guid>https://myonlyzzy.github.io/post/linux_process_memory/</guid>
+      <description> linux 系统下进程的内存管理  以前一直对进程的内存分配管理一知半解,最近因为一些事情需要了解一下.稍微研究了一下,记录一下.(以x86de 32位机器为例)
+ 虚拟地址空间 物理内存地址 </description>
+    </item>
     
     <item>
       <title>k8s workqueue 解读</title>
